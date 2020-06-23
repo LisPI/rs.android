@@ -8,5 +8,6 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportFragmentManager.beginTransaction().replace(android.R.id.content, SettingsFragment())
             .commit()
+        title = "Settings"
     }
 }
