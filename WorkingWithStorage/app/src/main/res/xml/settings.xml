@@ -4,14 +4,19 @@
 
     <PreferenceCategory
         android:key="sorting"
-        android:title="Sort by">
+        android:title="Sorting">
 
         <ListPreference
-            android:key="sortBy"
+            android:key="sortByPreference"
             android:title="Sort by"
             app:useSimpleSummaryProvider="true"
             android:entries="@array/list_preference_entries"
             android:entryValues="@array/list_preference_entry_values" />
+
+        <CheckBoxPreference
+            android:key="descendingCheckBox"
+            android:title="Descending"
+            android:defaultValue="false"/>
 
     </PreferenceCategory>
 

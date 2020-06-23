@@ -9,5 +9,11 @@ class SettingsActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(android.R.id.content, SettingsFragment())
             .commit()
         title = "Settings"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }
