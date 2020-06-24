@@ -12,6 +12,8 @@ class DatabaseDao {
 
     fun queryForAll() = dao.queryForAll()
 
+    fun sortQuery(columnName : String, descending : Boolean) = dao.queryBuilder().orderBy(columnName, descending).query()
+
     fun removeAll() {
         for (friend in queryForAll()) {
             dao.delete(friend)
