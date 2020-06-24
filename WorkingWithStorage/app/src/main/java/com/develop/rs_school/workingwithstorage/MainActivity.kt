@@ -5,18 +5,25 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.activity.result.launch
 import com.develop.rs_school.workingwithstorage.database.DatabaseDao
 import com.develop.rs_school.workingwithstorage.database.DatabaseHelper
 import com.develop.rs_school.workingwithstorage.database.Friend
 import com.develop.rs_school.workingwithstorage.databinding.ActivityMainBinding
 import com.develop.rs_school.workingwithstorage.settings.SettingsActivity
-import com.j256.ormlite.android.apptools.OrmLiteBaseActivity
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
     private val dao = DatabaseDao()
+
+    private val openAddItemActivity =
+        registerForActivityResult(AddItemActivityResultContract()) { result ->
+            if (result != null) {
+                Toast.makeText(this, result.name, Toast.LENGTH_SHORT).show()
+                dao.add(result)
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +32,7 @@ class MainActivity : AppCompatActivity() {
         title = "DBContent"
 
         binding.floatingActionButton.setOnClickListener {
-            //FIXME for test db working
-            dao.add(Friend(name = "alex", city = "minsk"))
-            Toast.makeText(this, dao.queryForAll()[1].DOB.toString(), Toast.LENGTH_SHORT).show()
+            openAddItemActivity.launch()
         }
     }
 

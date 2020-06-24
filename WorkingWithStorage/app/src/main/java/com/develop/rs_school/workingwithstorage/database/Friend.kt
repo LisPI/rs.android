@@ -1,9 +1,12 @@
 package com.develop.rs_school.workingwithstorage.database
 
+import android.os.Parcelable
 import com.j256.ormlite.field.DatabaseField
 import com.j256.ormlite.table.DatabaseTable
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+@Parcelize
 @DatabaseTable(tableName = "table")
 data class Friend(
 
@@ -19,4 +22,4 @@ data class Friend(
     //FIXME date format
     @DatabaseField
     var DOB : Date = Date()
-)
+) : Parcelable
