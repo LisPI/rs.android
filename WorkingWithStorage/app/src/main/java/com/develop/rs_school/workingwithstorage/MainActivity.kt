@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.result.launch
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +22,30 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
     private val dao = DatabaseDao()
-    private val adapter = FriendRecyclerAdapter()
+    private val adapter = FriendRecyclerAdapter(FriendListener { friendId ->
+        AlertDialog.Builder(this@MainActivity)
+            .setMessage(getString(R.string.DeletingMessage))
+            .setPositiveButton(getString(R.string.ConfirmButtonText)){ _, _ ->
+                run {
+                    isDelete = true
+                    deleteFriend(friendId)
+                }
+            }
+            .create()
+            .show()
+    })
+
+    private fun deleteFriend(friendId: Int) {
+        uiScope.launch {
+            val result = deleteFriendFromDb(friendId)
+            if(result != 0){
+                isDelete = true
+                adapter.submitList(getFriendsFromDatabase(sortBy, isSortDesc))
+            }
+        }
+    }
+
+    private var isDelete = false
 
     private var sortBy : String? = null
     private var isSortDesc = false
@@ -64,6 +89,12 @@ class MainActivity : AppCompatActivity() {
                 adapter.submitList(getFriendsFromDatabase(sortBy, isSortDesc))
             }
         }
+        if(isDelete){
+            uiScope.launch {
+                adapter.submitList(getFriendsFromDatabase(sortBy, isSortDesc))
+            }
+            isDelete = false
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -105,6 +136,12 @@ class MainActivity : AppCompatActivity() {
     private suspend fun insertFriendToDb(newFriend : Friend) : Dao.CreateOrUpdateStatus{
         return withContext(Dispatchers.IO) {
             dao.add(newFriend)
+        }
+    }
+
+    private suspend fun deleteFriendFromDb(friendId : Int) : Int{
+        return withContext(Dispatchers.IO) {
+            dao.deleteById(friendId)
         }
     }
 

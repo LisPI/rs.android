@@ -34,18 +34,15 @@ class AddItemActivity : AppCompatActivity() {
 
         binding.dobEt.setOnClickListener{
             val calendar = Calendar.getInstance()
-            val day = calendar[Calendar.DAY_OF_MONTH]
-            val month = calendar[Calendar.MONTH]
-            val year = calendar[Calendar.YEAR]
             DatePickerDialog(
                 this,
                 OnDateSetListener { _, pickerYear, monthOfYear, dayOfMonth ->
                     calendar.set(pickerYear, monthOfYear, dayOfMonth)
                     binding.dobEt.setText(simpleDateFormat.format(calendar.time))
                 },
-                year,
-                month,
-                day
+                calendar[Calendar.YEAR],
+                calendar[Calendar.MONTH],
+                calendar[Calendar.DAY_OF_MONTH]
             ).show()
         }
 

@@ -13,12 +13,21 @@ import java.util.*
 
 const val dateFormatForRecyclerItem = "d MMMM yyyy"
 
-class FriendRecyclerAdapter : ListAdapter<Friend, FriendRecyclerAdapter.ViewHolder>(FriendDiffUtilCallback()) {
+class FriendRecyclerAdapter(val itemClickListener: FriendListener) : ListAdapter<Friend, FriendRecyclerAdapter.ViewHolder>(FriendDiffUtilCallback()) {
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val name: TextView = itemView.findViewById(R.id.NameTv)
         val city: TextView = itemView.findViewById(R.id.CityTv)
         val dob : TextView = itemView.findViewById(R.id.DOBTv)
+
+        fun bind(friend: Friend, itemClickListener : FriendListener) {
+            name.text = friend.name
+            city.text = friend.city
+            val specialDateFormat = SimpleDateFormat(dateFormatForRecyclerItem, Locale.getDefault())
+            dob.text = specialDateFormat.format(friend.DOB)
+
+            itemView.setOnClickListener{itemClickListener.onClick(friend)}
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,10 +38,7 @@ class FriendRecyclerAdapter : ListAdapter<Friend, FriendRecyclerAdapter.ViewHold
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val friend = getItem(position)
-        holder.name.text = friend.name
-        holder.city.text = friend.city
-        val specialDateFormat = SimpleDateFormat(dateFormatForRecyclerItem, Locale.getDefault())
-        holder.dob.text = specialDateFormat.format(friend.DOB)
+        holder.bind(friend, itemClickListener)
     }
 }
 
@@ -44,4 +50,8 @@ class FriendDiffUtilCallback : DiffUtil.ItemCallback<Friend>() {
     override fun areContentsTheSame(oldItem: Friend, newItem: Friend): Boolean {
         return oldItem == newItem
     }
+}
+
+class FriendListener(val clickListener: (FriendId: Int) -> Unit) {
+    fun onClick(friend: Friend) = clickListener(friend.id!!)
 }

@@ -10,4 +10,6 @@
     <string name="ErrorText">Error</string>
     <string name="AddItemActivityTitle">Add friend</string>
     <string name="FriendsMainActivityTitle">Friends</string>
+    <string name="DeletingMessage">Delete this friend?</string>
+    <string name="ConfirmButtonText">Yes</string>
 </resources>
