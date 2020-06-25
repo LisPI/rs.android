@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         binding.friendRecycler.adapter = adapter
 
         //FIXME to Coroutine
-        adapter.friends = dao.queryForAll()
+        adapter.submitList(dao.queryForAll())
     }
 
     override fun onResume() {
@@ -59,9 +59,9 @@ class MainActivity : AppCompatActivity() {
         val isSortDesc = prefs.getBoolean("descendingCheckBox", false)
 
         if(sortBy.isNullOrEmpty())
-            adapter.friends = dao.queryForAll()
+            adapter.submitList(dao.queryForAll())
         else
-            adapter.friends = dao.sortQuery(sortBy, isSortDesc)
+            adapter.submitList(dao.sortQuery(sortBy, isSortDesc))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

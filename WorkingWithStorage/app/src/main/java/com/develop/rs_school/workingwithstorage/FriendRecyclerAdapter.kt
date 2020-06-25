@@ -3,20 +3,15 @@ package com.develop.rs_school.workingwithstorage
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.develop.rs_school.workingwithstorage.database.Friend
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FriendRecyclerAdapter : RecyclerView.Adapter<FriendRecyclerAdapter.ViewHolder>() {
-
-    var friends = listOf<Friend>()
-        set(value){
-            field = value
-            notifyDataSetChanged()
-        }
-
+class FriendRecyclerAdapter : ListAdapter<Friend, FriendRecyclerAdapter.ViewHolder>(FriendDiffUtilCallback()) {
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val name: TextView = itemView.findViewById(R.id.NameTv)
@@ -30,12 +25,21 @@ class FriendRecyclerAdapter : RecyclerView.Adapter<FriendRecyclerAdapter.ViewHol
         return ViewHolder(view)
     }
 
-    override fun getItemCount() = friends.size
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.name.text = friends[position].name
-        holder.city.text = friends[position].city
+        val friend = getItem(position)
+        holder.name.text = friend.name
+        holder.city.text = friend.city
         val specialDateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
-        holder.dob.text = specialDateFormat.format(friends[position].DOB)
+        holder.dob.text = specialDateFormat.format(friend.DOB)
+    }
+}
+
+class FriendDiffUtilCallback : DiffUtil.ItemCallback<Friend>() {
+    override fun areItemsTheSame(oldItem: Friend, newItem: Friend): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Friend, newItem: Friend): Boolean {
+        return oldItem == newItem
     }
 }
