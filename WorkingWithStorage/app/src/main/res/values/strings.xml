@@ -5,4 +5,9 @@
     <string name="name">Name</string>
     <string name="addButtonText">Add</string>
     <string name="dateFormatHelper">DD.MM.YYYY</string>
+    <string name="sortByPrefKey">sortByPreference</string>
+    <string name="isDescSortPrefKey">descendingCheckBox</string>
+    <string name="ErrorText">Error</string>
+    <string name="AddItemActivityTitle">Add friend</string>
+    <string name="FriendsMainActivityTitle">Friends</string>
 </resources>

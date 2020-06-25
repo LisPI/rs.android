@@ -17,10 +17,12 @@ object DatabaseHelper: OrmLiteSqliteOpenHelper(App.instance, "friend.db", null, 
         val cities = arrayOf("Minsk", "Berlin", "Barcelona")
         val names = arrayOf("Paul", "Alex", "Kate")
         val cldr = Calendar.getInstance()
-        for(i in 1..10){
-            cldr.set(2010-i,i,2+i)
-            getDao(Friend::class.java).createOrUpdate(Friend(name = names.random(), city = cities.random(), DOB = cldr.time) )
-        }
+
+            for(i in 1..10){
+                cldr.set(2010-i,i,2+i)
+                getDao(Friend::class.java).createOrUpdate(Friend(name = names.random(), city = cities.random(), DOB = cldr.time) )
+            }
+
     }
 
     override fun onUpgrade(

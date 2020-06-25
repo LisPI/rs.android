@@ -11,6 +11,8 @@ import com.develop.rs_school.workingwithstorage.database.Friend
 import java.text.SimpleDateFormat
 import java.util.*
 
+const val dateFormatForRecyclerItem = "d MMMM yyyy"
+
 class FriendRecyclerAdapter : ListAdapter<Friend, FriendRecyclerAdapter.ViewHolder>(FriendDiffUtilCallback()) {
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
@@ -29,7 +31,7 @@ class FriendRecyclerAdapter : ListAdapter<Friend, FriendRecyclerAdapter.ViewHold
         val friend = getItem(position)
         holder.name.text = friend.name
         holder.city.text = friend.city
-        val specialDateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
+        val specialDateFormat = SimpleDateFormat(dateFormatForRecyclerItem, Locale.getDefault())
         holder.dob.text = specialDateFormat.format(friend.DOB)
     }
 }

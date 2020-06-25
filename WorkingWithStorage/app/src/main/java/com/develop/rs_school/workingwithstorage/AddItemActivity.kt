@@ -14,18 +14,18 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-
+const val dateInputFormat =  "dd.MM.yyyy"
 
 class AddItemActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityAddItemBinding
-    private val simpleDateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+    private val simpleDateFormat = SimpleDateFormat(dateInputFormat, Locale.getDefault())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddItemBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        title = "Add friend"
+        title = getString(R.string.AddItemActivityTitle)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.nameEt.doAfterTextChanged{ binding.nameEtWrapper.error = "" }
@@ -33,14 +33,16 @@ class AddItemActivity : AppCompatActivity() {
         binding.dobEt.doAfterTextChanged{ binding.dobEtWrapper.error = "" }
 
         binding.dobEt.setOnClickListener{
-            val cldr = Calendar.getInstance()
-            val day = cldr[Calendar.DAY_OF_MONTH]
-            val month = cldr[Calendar.MONTH]
-            val year = cldr[Calendar.YEAR]
+            val calendar = Calendar.getInstance()
+            val day = calendar[Calendar.DAY_OF_MONTH]
+            val month = calendar[Calendar.MONTH]
+            val year = calendar[Calendar.YEAR]
             DatePickerDialog(
                 this,
-                OnDateSetListener { _, pickerYear, monthOfYear, dayOfMonth -> cldr.set(pickerYear, monthOfYear, dayOfMonth)
-                    binding.dobEt.setText(simpleDateFormat.format(cldr.time)) },
+                OnDateSetListener { _, pickerYear, monthOfYear, dayOfMonth ->
+                    calendar.set(pickerYear, monthOfYear, dayOfMonth)
+                    binding.dobEt.setText(simpleDateFormat.format(calendar.time))
+                },
                 year,
                 month,
                 day
@@ -63,18 +65,18 @@ class AddItemActivity : AppCompatActivity() {
 
     private fun validateInput() : Boolean{
         if(binding.nameEt.text.toString().isEmpty()){
-            binding.nameEtWrapper.error = "Error"
+            binding.nameEtWrapper.error = getString(R.string.ErrorText)
             return false
         }
         if(binding.cityEt.text.toString().isEmpty()){
-            binding.cityEtWrapper.error = "Error"
+            binding.cityEtWrapper.error = getString(R.string.ErrorText)
             return false
         }
         try {
             simpleDateFormat.parse(binding.dobEt.text.toString())!!
         }
         catch (p : ParseException){
-            binding.dobEtWrapper.error = "Error"
+            binding.dobEtWrapper.error = getString(R.string.ErrorText)
             return false
         }
         return true

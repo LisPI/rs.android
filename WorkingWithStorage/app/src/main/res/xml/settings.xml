@@ -7,14 +7,14 @@
         android:title="Sorting">
 
         <ListPreference
-            android:key="sortByPreference"
+            android:key="@string/sortByPrefKey"
             android:title="Sort by"
             app:useSimpleSummaryProvider="true"
             android:entries="@array/list_preference_entries"
             android:entryValues="@array/list_preference_entry_values" />
 
         <CheckBoxPreference
-            android:key="descendingCheckBox"
+            android:key="@string/isDescSortPrefKey"
             android:title="Descending"
             android:defaultValue="false"/>
 
