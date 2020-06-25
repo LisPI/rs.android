@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">WorkingWithStorage</string>
+    <string name="birthday">Birthday</string>
+    <string name="city">City</string>
+    <string name="name">Name</string>
+    <string name="addButtonText">Add</string>
+    <string name="dateFormatHelper">DD.MM.YYYY</string>
 </resources>

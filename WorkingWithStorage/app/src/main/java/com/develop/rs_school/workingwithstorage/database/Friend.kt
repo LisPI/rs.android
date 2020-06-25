@@ -19,7 +19,6 @@ data class Friend(
     @DatabaseField
     var city: String = "",
 
-    //FIXME date format
     @DatabaseField
     var DOB : Date = Date()
 ) : Parcelable

@@ -1,14 +1,13 @@
 package com.develop.rs_school.workingwithstorage
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.develop.rs_school.workingwithstorage.database.Friend
-import kotlin.math.roundToInt
+import java.text.SimpleDateFormat
+import java.util.*
 
 class FriendRecyclerAdapter : RecyclerView.Adapter<FriendRecyclerAdapter.ViewHolder>() {
 
@@ -22,7 +21,7 @@ class FriendRecyclerAdapter : RecyclerView.Adapter<FriendRecyclerAdapter.ViewHol
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val name: TextView = itemView.findViewById(R.id.NameTv)
         val city: TextView = itemView.findViewById(R.id.CityTv)
-        val dob : TextView = itemView.findViewById(R.id.BODTv)
+        val dob : TextView = itemView.findViewById(R.id.DOBTv)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -36,6 +35,7 @@ class FriendRecyclerAdapter : RecyclerView.Adapter<FriendRecyclerAdapter.ViewHol
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = friends[position].name
         holder.city.text = friends[position].city
-        holder.dob.text = friends[position].DOB.toString()
+        val specialDateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
+        holder.dob.text = specialDateFormat.format(friends[position].DOB)
     }
 }

@@ -10,15 +10,18 @@ import androidx.activity.result.launch
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.develop.rs_school.workingwithstorage.database.DatabaseDao
 import com.develop.rs_school.workingwithstorage.database.DatabaseHelper
 import com.develop.rs_school.workingwithstorage.databinding.ActivityMainBinding
 import com.develop.rs_school.workingwithstorage.settings.SettingsActivity
+import com.j256.ormlite.android.apptools.OpenHelperManager
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
     private val dao = DatabaseDao()
+    private lateinit var adapter : FriendRecyclerAdapter
 
     private val openAddItemActivity =
         registerForActivityResult(AddItemActivityResultContract()) { result ->
@@ -29,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                 dao.add(result)
             }
         }
-    val adapter = FriendRecyclerAdapter()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.friendRecycler.layoutManager = LinearLayoutManager(this)
+        adapter = FriendRecyclerAdapter()
         binding.friendRecycler.adapter = adapter
 
         //FIXME to Coroutine
@@ -51,9 +55,13 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val sortBy = prefs.getString("sortByPreference", "name")
+        val sortBy = prefs.getString("sortByPreference", null)
         val isSortDesc = prefs.getBoolean("descendingCheckBox", false)
-        adapter.friends = dao.sortQuery(sortBy!!, isSortDesc)
+
+        if(sortBy.isNullOrEmpty())
+            adapter.friends = dao.queryForAll()
+        else
+            adapter.friends = dao.sortQuery(sortBy, isSortDesc)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -76,7 +84,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         //FIXME
-        DatabaseHelper.close()
+        //DatabaseHelper.close()
     }
 
 }
