@@ -13,14 +13,14 @@ import java.util.*
 
 const val dateFormatForRecyclerItem = "d MMMM yyyy"
 
-class FriendRecyclerAdapter(val itemClickListener: FriendListener) : ListAdapter<Friend, FriendRecyclerAdapter.ViewHolder>(FriendDiffUtilCallback()) {
+class FriendRecyclerAdapter(val itemClickListener: FriendRecyclerItemListener) : ListAdapter<Friend, FriendRecyclerAdapter.ViewHolder>(FriendDiffUtilCallback()) {
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val name: TextView = itemView.findViewById(R.id.NameTv)
         val city: TextView = itemView.findViewById(R.id.CityTv)
         val dob : TextView = itemView.findViewById(R.id.DOBTv)
 
-        fun bind(friend: Friend, itemClickListener : FriendListener) {
+        fun bind(friend: Friend, itemClickListener : FriendRecyclerItemListener) {
             name.text = friend.name
             city.text = friend.city
             val specialDateFormat = SimpleDateFormat(dateFormatForRecyclerItem, Locale.getDefault())
@@ -52,6 +52,6 @@ class FriendDiffUtilCallback : DiffUtil.ItemCallback<Friend>() {
     }
 }
 
-class FriendListener(val clickListener: (FriendId: Int) -> Unit) {
+class FriendRecyclerItemListener(val clickListener: (FriendId: Int) -> Unit) {
     fun onClick(friend: Friend) = clickListener(friend.id!!)
 }

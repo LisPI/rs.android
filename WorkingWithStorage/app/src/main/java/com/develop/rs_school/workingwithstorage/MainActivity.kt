@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.activity.result.launch
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -22,28 +21,17 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
     private val dao = DatabaseDao()
-    private val adapter = FriendRecyclerAdapter(FriendListener { friendId ->
+    private val adapter = FriendRecyclerAdapter(FriendRecyclerItemListener { friendId ->
         AlertDialog.Builder(this@MainActivity)
             .setMessage(getString(R.string.DeletingMessage))
             .setPositiveButton(getString(R.string.ConfirmButtonText)){ _, _ ->
                 run {
-                    isDelete = true
                     deleteFriend(friendId)
                 }
             }
             .create()
             .show()
     })
-
-    private fun deleteFriend(friendId: Int) {
-        uiScope.launch {
-            val result = deleteFriendFromDb(friendId)
-            if(result != 0){
-                isDelete = true
-                adapter.submitList(getFriendsFromDatabase(sortBy, isSortDesc))
-            }
-        }
-    }
 
     private var isDelete = false
 
@@ -117,8 +105,6 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         viewModelJob.cancel()
-        //FIXME
-        //DatabaseHelper.close()
     }
 
     private val openAddItemActivity =
@@ -136,6 +122,16 @@ class MainActivity : AppCompatActivity() {
     private suspend fun insertFriendToDb(newFriend : Friend) : Dao.CreateOrUpdateStatus{
         return withContext(Dispatchers.IO) {
             dao.add(newFriend)
+        }
+    }
+
+    private fun deleteFriend(friendId: Int) {
+        uiScope.launch {
+            val result = deleteFriendFromDb(friendId)
+            if(result != 0){
+                isDelete = true
+                adapter.submitList(getFriendsFromDatabase(sortBy, isSortDesc))
+            }
         }
     }
 
