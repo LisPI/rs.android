@@ -8,34 +8,32 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.develop.rs_school.workingwithstorage.database.Friend
+import com.develop.rs_school.workingwithstorage.databinding.RecyclerViewItemBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FriendRecyclerAdapter(private val itemClickListener: FriendRecyclerItemListener) : ListAdapter<Friend, FriendRecyclerAdapter.ViewHolder>(FriendDiffUtilCallback()) {
+class FriendRecyclerAdapter(private val itemClickListener: FriendRecyclerItemListener) :
+    ListAdapter<Friend, FriendRecyclerAdapter.ViewHolder>(FriendDiffUtilCallback()) {
 
-    companion object{
+    companion object {
         const val dateFormatForRecyclerItem = "d MMMM yyyy"
     }
 
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        private val name: TextView = itemView.findViewById(R.id.name_tv)
-        private val city: TextView = itemView.findViewById(R.id.city_tv)
-        private val dob : TextView = itemView.findViewById(R.id.dob_tv)
-
-        fun bind(friend: Friend, itemClickListener : FriendRecyclerItemListener) {
-            name.text = friend.name
-            city.text = friend.city
+    class ViewHolder(private val itemBinding: RecyclerViewItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
+        fun bind(friend: Friend, itemClickListener: FriendRecyclerItemListener) {
+            itemBinding.nameTv.text = friend.name
+            itemBinding.cityTv.text = friend.city
             val specialDateFormat = SimpleDateFormat(dateFormatForRecyclerItem, Locale.getDefault())
-            dob.text = specialDateFormat.format(friend.DOB)
+            itemBinding.dobTv.text = specialDateFormat.format(friend.DOB)
 
-            itemView.setOnClickListener{itemClickListener.onClick(friend)}
+            itemView.setOnClickListener { itemClickListener.onClick(friend) }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.recycler_view_item, parent, false)
-        return ViewHolder(view)
+        val binding = RecyclerViewItemBinding.inflate(layoutInflater, parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

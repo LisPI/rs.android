@@ -64,11 +64,8 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        if ((sortBy != prefs.getString(
-                getString(R.string.sortByPrefKey),
-                null
-            )) || (isSortDesc != prefs.getBoolean(getString(R.string.isDescSortPrefKey), false))
-        ) {
+        if ((sortBy != prefs.getString(getString(R.string.sortByPrefKey), null))
+            || (isSortDesc != prefs.getBoolean(getString(R.string.isDescSortPrefKey), false))) {
             sortBy = prefs.getString(getString(R.string.sortByPrefKey), null)
             isSortDesc = prefs.getBoolean(getString(R.string.isDescSortPrefKey), false)
 
