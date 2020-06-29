@@ -13,12 +13,13 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-const val dateInputFormat =  "dd.MM.yyyy"
-
 class AddItemActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityAddItemBinding
+    companion object{
+        const val dateInputFormat = "dd.MM.yyyy"
+    }
+
+    private lateinit var binding: ActivityAddItemBinding
     private val simpleDateFormat = SimpleDateFormat(dateInputFormat, Locale.getDefault())
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,11 +29,11 @@ class AddItemActivity : AppCompatActivity() {
         title = getString(R.string.AddItemActivityTitle)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        binding.nameEt.doAfterTextChanged{ binding.nameEtWrapper.error = "" }
-        binding.cityEt.doAfterTextChanged{ binding.cityEtWrapper.error = "" }
-        binding.dobEt.doAfterTextChanged{ binding.dobEtWrapper.error = "" }
+        binding.nameEt.doAfterTextChanged { binding.nameEtWrapper.error = "" }
+        binding.cityEt.doAfterTextChanged { binding.cityEtWrapper.error = "" }
+        binding.dobEt.doAfterTextChanged { binding.dobEtWrapper.error = "" }
 
-        binding.dobEt.setOnClickListener{
+        binding.dobEt.setOnClickListener {
             val calendar = Calendar.getInstance()
             DatePickerDialog(
                 this,
@@ -48,31 +49,34 @@ class AddItemActivity : AppCompatActivity() {
 
 
         binding.addButton.setOnClickListener {
-            if(validateInput()){
+            if (validateInput()) {
                 val intent = Intent()
-                intent.putExtra(intentKeyFriend,
-                            Friend(name = binding.nameEt.text.toString(),
-                                    city = binding.cityEt.text.toString(),
-                                    DOB = simpleDateFormat.parse(binding.dobEt.text.toString())!!))
+                intent.putExtra(
+                    intentKeyFriend,
+                    Friend(
+                        name = binding.nameEt.text.toString(),
+                        city = binding.cityEt.text.toString(),
+                        DOB = simpleDateFormat.parse(binding.dobEt.text.toString()) ?: Date()
+                    )
+                )
                 setResult(Activity.RESULT_OK, intent)
                 finish()
             }
         }
     }
 
-    private fun validateInput() : Boolean{
-        if(binding.nameEt.text.toString().isEmpty()){
+    private fun validateInput(): Boolean {
+        if (binding.nameEt.text.toString().isEmpty()) {
             binding.nameEtWrapper.error = getString(R.string.ErrorText)
             return false
         }
-        if(binding.cityEt.text.toString().isEmpty()){
+        if (binding.cityEt.text.toString().isEmpty()) {
             binding.cityEtWrapper.error = getString(R.string.ErrorText)
             return false
         }
         try {
-            simpleDateFormat.parse(binding.dobEt.text.toString())!!
-        }
-        catch (p : ParseException){
+            simpleDateFormat.parse(binding.dobEt.text.toString())
+        } catch (p: ParseException) {
             binding.dobEtWrapper.error = getString(R.string.ErrorText)
             return false
         }

@@ -8,12 +8,12 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/nameEtWrapper"
+        android:id="@+id/name_et_wrapper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/name"
         app:endIconMode="clear_text"
-        app:layout_constraintBottom_toTopOf="@+id/cityEtWrapper"
+        app:layout_constraintBottom_toTopOf="@+id/city_et_wrapper"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +22,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nameEt"
+            android:id="@+id/name_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
@@ -33,20 +33,20 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/cityEtWrapper"
+        android:id="@+id/city_et_wrapper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/city"
         app:endIconMode="clear_text"
-        app:layout_constraintBottom_toTopOf="@+id/dobEtWrapper"
+        app:layout_constraintBottom_toTopOf="@+id/dob_et_wrapper"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameEtWrapper"
+        app:layout_constraintTop_toBottomOf="@+id/name_et_wrapper"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/cityEt"
+            android:id="@+id/city_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
@@ -56,22 +56,22 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/dobEtWrapper"
+        android:id="@+id/dob_et_wrapper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/birthday"
         app:endIconMode="clear_text"
         app:helperTextEnabled="true"
         app:helperText="@string/dateFormatHelper"
-        app:layout_constraintBottom_toTopOf="@+id/addButton"
+        app:layout_constraintBottom_toTopOf="@+id/add_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cityEtWrapper"
+        app:layout_constraintTop_toBottomOf="@+id/city_et_wrapper"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/dobEt"
+            android:id="@+id/dob_et"
             android:focusable="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/addButton"
+        android:id="@+id/add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/addButtonText"
@@ -90,6 +90,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dobEtWrapper" />
+        app:layout_constraintTop_toBottomOf="@+id/dob_et_wrapper" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

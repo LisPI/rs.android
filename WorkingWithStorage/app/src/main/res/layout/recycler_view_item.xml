@@ -15,14 +15,14 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/NameTv"
+            android:id="@+id/name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="For test"
             android:textAppearance="?attr/textAppearanceHeadline6"
             />
         <TextView
-            android:id="@+id/CityTv"
+            android:id="@+id/city_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -31,7 +31,7 @@
             android:textColor="?android:attr/textColorSecondary"
             />
         <TextView
-            android:id="@+id/DOBTv"
+            android:id="@+id/dob_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

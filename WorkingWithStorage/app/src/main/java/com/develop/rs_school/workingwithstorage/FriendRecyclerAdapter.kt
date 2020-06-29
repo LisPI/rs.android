@@ -11,14 +11,16 @@ import com.develop.rs_school.workingwithstorage.database.Friend
 import java.text.SimpleDateFormat
 import java.util.*
 
-const val dateFormatForRecyclerItem = "d MMMM yyyy"
+class FriendRecyclerAdapter(private val itemClickListener: FriendRecyclerItemListener) : ListAdapter<Friend, FriendRecyclerAdapter.ViewHolder>(FriendDiffUtilCallback()) {
 
-class FriendRecyclerAdapter(val itemClickListener: FriendRecyclerItemListener) : ListAdapter<Friend, FriendRecyclerAdapter.ViewHolder>(FriendDiffUtilCallback()) {
+    companion object{
+        const val dateFormatForRecyclerItem = "d MMMM yyyy"
+    }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        val name: TextView = itemView.findViewById(R.id.NameTv)
-        val city: TextView = itemView.findViewById(R.id.CityTv)
-        val dob : TextView = itemView.findViewById(R.id.DOBTv)
+        private val name: TextView = itemView.findViewById(R.id.name_tv)
+        private val city: TextView = itemView.findViewById(R.id.city_tv)
+        private val dob : TextView = itemView.findViewById(R.id.dob_tv)
 
         fun bind(friend: Friend, itemClickListener : FriendRecyclerItemListener) {
             name.text = friend.name
@@ -53,5 +55,5 @@ class FriendDiffUtilCallback : DiffUtil.ItemCallback<Friend>() {
 }
 
 class FriendRecyclerItemListener(val clickListener: (FriendId: Int) -> Unit) {
-    fun onClick(friend: Friend) = clickListener(friend.id!!)
+    fun onClick(friend: Friend) = friend.id?.let { clickListener(it) }
 }

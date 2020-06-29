@@ -12,6 +12,7 @@ class DatabaseDao {
 
     fun queryForAll() = dao.queryForAll()
 
-    fun sortQuery(columnName : String, descending : Boolean) = dao.queryBuilder().orderBy(columnName, descending).query()
+    fun sortQuery(columnName: String, descending: Boolean) =
+        dao.queryBuilder().orderBy(columnName, descending).query()
 
 }

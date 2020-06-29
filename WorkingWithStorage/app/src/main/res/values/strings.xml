@@ -12,4 +12,5 @@
     <string name="FriendsMainActivityTitle">Friends</string>
     <string name="DeletingMessage">Delete this friend?</string>
     <string name="ConfirmButtonText">Yes</string>
+    <string name="SortMenuTitle">sort</string>
 </resources>

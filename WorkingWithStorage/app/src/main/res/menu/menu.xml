@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/settingsActivityMenuItem"
+        android:id="@+id/settings_activity_menu_item"
         android:icon="@drawable/ic_baseline_sort_24"
-        android:title="sort"
+        android:title="@string/SortMenuTitle"
         app:showAsAction="always" />
 </menu>

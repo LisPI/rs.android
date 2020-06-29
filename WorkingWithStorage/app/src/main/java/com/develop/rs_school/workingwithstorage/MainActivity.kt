@@ -9,7 +9,6 @@ import androidx.activity.result.launch
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.develop.rs_school.workingwithstorage.database.DatabaseDao
 import com.develop.rs_school.workingwithstorage.database.Friend
 import com.develop.rs_school.workingwithstorage.databinding.ActivityMainBinding
@@ -19,12 +18,12 @@ import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     private val dao = DatabaseDao()
     private val adapter = FriendRecyclerAdapter(FriendRecyclerItemListener { friendId ->
         AlertDialog.Builder(this@MainActivity)
             .setMessage(getString(R.string.DeletingMessage))
-            .setPositiveButton(getString(R.string.ConfirmButtonText)){ _, _ ->
+            .setPositiveButton(getString(R.string.ConfirmButtonText)) { _, _ ->
                 run {
                     deleteFriend(friendId)
                 }
@@ -35,11 +34,11 @@ class MainActivity : AppCompatActivity() {
 
     private var isDelete = false
 
-    private var sortBy : String? = null
+    private var sortBy: String? = null
     private var isSortDesc = false
 
-    private var viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private var coroutineDbJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + coroutineDbJob)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +50,7 @@ class MainActivity : AppCompatActivity() {
             openAddItemActivity.launch()
         }
 
-        binding.friendRecycler.layoutManager = LinearLayoutManager(this)
         binding.friendRecycler.adapter = adapter
-
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         sortBy = prefs.getString(getString(R.string.sortByPrefKey), null)
@@ -67,17 +64,19 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        if((sortBy != prefs.getString(getString(R.string.sortByPrefKey), null)) || (isSortDesc != prefs.getBoolean(getString(R.string.isDescSortPrefKey), false))) {
+        if ((sortBy != prefs.getString(
+                getString(R.string.sortByPrefKey),
+                null
+            )) || (isSortDesc != prefs.getBoolean(getString(R.string.isDescSortPrefKey), false))
+        ) {
             sortBy = prefs.getString(getString(R.string.sortByPrefKey), null)
             isSortDesc = prefs.getBoolean(getString(R.string.isDescSortPrefKey), false)
-
-            //adapter.submitList(listOf())
 
             uiScope.launch {
                 adapter.submitList(getFriendsFromDatabase(sortBy, isSortDesc))
             }
         }
-        if(isDelete){
+        if (isDelete) {
             uiScope.launch {
                 adapter.submitList(getFriendsFromDatabase(sortBy, isSortDesc))
             }
@@ -93,7 +92,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.settingsActivityMenuItem -> {
+            R.id.settings_activity_menu_item -> {
                 val intent = Intent(this, SettingsActivity::class.java)
                 startActivity(intent)
                 true
@@ -104,7 +103,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModelJob.cancel()
+        coroutineDbJob.cancel()
     }
 
     private val openAddItemActivity =
@@ -112,14 +111,14 @@ class MainActivity : AppCompatActivity() {
             if (newFriend != null) {
                 uiScope.launch {
                     val result = insertFriendToDb(newFriend)
-                    if(result.isCreated){
+                    if (result.isCreated) {
                         adapter.submitList(getFriendsFromDatabase(sortBy, isSortDesc))
                     }
                 }
             }
         }
 
-    private suspend fun insertFriendToDb(newFriend : Friend) : Dao.CreateOrUpdateStatus{
+    private suspend fun insertFriendToDb(newFriend: Friend): Dao.CreateOrUpdateStatus {
         return withContext(Dispatchers.IO) {
             dao.add(newFriend)
         }
@@ -128,24 +127,23 @@ class MainActivity : AppCompatActivity() {
     private fun deleteFriend(friendId: Int) {
         uiScope.launch {
             val result = deleteFriendFromDb(friendId)
-            if(result != 0){
+            if (result != 0) {
                 isDelete = true
                 adapter.submitList(getFriendsFromDatabase(sortBy, isSortDesc))
             }
         }
     }
 
-    private suspend fun deleteFriendFromDb(friendId : Int) : Int{
+    private suspend fun deleteFriendFromDb(friendId: Int): Int {
         return withContext(Dispatchers.IO) {
             dao.deleteById(friendId)
         }
     }
 
-
-    private suspend fun getFriendsFromDatabase(sortBy : String?, isSortDesc : Boolean): List<Friend> {
+    private suspend fun getFriendsFromDatabase(sortBy: String?, isSortDesc: Boolean): List<Friend> {
         return withContext(Dispatchers.IO) {
             dao.queryForAll()
-            if(sortBy.isNullOrEmpty())
+            if (sortBy.isNullOrEmpty())
                 dao.queryForAll()
             else
                 dao.sortQuery(sortBy, isSortDesc)
