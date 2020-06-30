@@ -1,11 +1,9 @@
 package com.develop.rs_school.workingwithstorage
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.develop.rs_school.workingwithstorage.database.Friend
 import com.develop.rs_school.workingwithstorage.databinding.RecyclerViewItemBinding
@@ -19,26 +17,30 @@ class FriendRecyclerAdapter(private val itemClickListener: FriendRecyclerItemLis
         const val dateFormatForRecyclerItem = "d MMMM yyyy"
     }
 
-    class ViewHolder(private val itemBinding: RecyclerViewItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(friend: Friend, itemClickListener: FriendRecyclerItemListener) {
+
+    inner class ViewHolder(private val itemBinding: RecyclerViewItemBinding, itemClickListener: FriendRecyclerItemListener) : RecyclerView.ViewHolder(itemBinding.root) {
+
+        init{
+            itemView.setOnClickListener{itemClickListener.onClick(getItem(adapterPosition))}
+        }
+
+        fun bind(friend: Friend) {
             itemBinding.nameTv.text = friend.name
             itemBinding.cityTv.text = friend.city
             val specialDateFormat = SimpleDateFormat(dateFormatForRecyclerItem, Locale.getDefault())
             itemBinding.dobTv.text = specialDateFormat.format(friend.DOB)
-
-            itemView.setOnClickListener { itemClickListener.onClick(friend) }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = RecyclerViewItemBinding.inflate(layoutInflater, parent, false)
-        return ViewHolder(binding)
+        return ViewHolder(binding, itemClickListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val friend = getItem(position)
-        holder.bind(friend, itemClickListener)
+        holder.bind(friend)
     }
 }
 
