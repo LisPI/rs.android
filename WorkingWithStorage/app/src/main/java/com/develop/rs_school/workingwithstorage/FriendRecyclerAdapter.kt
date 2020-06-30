@@ -18,7 +18,7 @@ class FriendRecyclerAdapter(private val itemClickListener: FriendRecyclerItemLis
     }
 
 
-    inner class ViewHolder(private val itemBinding: RecyclerViewItemBinding, itemClickListener: FriendRecyclerItemListener) : RecyclerView.ViewHolder(itemBinding.root) {
+    inner class ViewHolder(private val itemBinding: RecyclerViewItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
 
         init{
             itemView.setOnClickListener{itemClickListener.onClick(getItem(adapterPosition))}
@@ -35,7 +35,7 @@ class FriendRecyclerAdapter(private val itemClickListener: FriendRecyclerItemLis
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = RecyclerViewItemBinding.inflate(layoutInflater, parent, false)
-        return ViewHolder(binding, itemClickListener)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
