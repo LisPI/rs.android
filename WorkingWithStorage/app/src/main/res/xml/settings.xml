@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:key="sorting"
+        android:title="Sorting">
+
+        <ListPreference
+            android:key="@string/sortByPrefKey"
+            android:title="Sort by"
+            app:useSimpleSummaryProvider="true"
+            android:entries="@array/list_preference_entries"
+            android:entryValues="@array/list_preference_entry_values" />
+
+        <CheckBoxPreference
+            android:key="@string/isDescSortPrefKey"
+            android:title="Descending"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
