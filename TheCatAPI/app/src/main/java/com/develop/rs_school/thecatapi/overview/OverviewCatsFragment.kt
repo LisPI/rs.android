@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -22,6 +23,10 @@ class OverviewCatsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: OverviewCatsViewModel
 
+    private val adapter = CatRecyclerAdapter(CatRecyclerItemListener {
+        findNavController().navigate(R.id.action_overviewCatsFragment_to_detailCatFragment)
+    })
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,15 +35,13 @@ class OverviewCatsFragment : Fragment() {
         _binding = OverviewCatsFragmentBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(OverviewCatsViewModel::class.java)
 
-        val coroutineScope = CoroutineScope(Job() + Dispatchers.Main )
-        coroutineScope.launch {
-            val list = CatApi.retrofitService.getCats()
-            Glide.with(requireActivity()).load(list[0].imageUrl).into(binding.imageView)
-        }
+        binding.catRecycler.adapter = adapter
 
-        binding.imageView.setOnClickListener {
-            findNavController().navigate(R.id.action_overviewCatsFragment_to_detailCatFragment)
-        }
+        viewModel.cats.observe(viewLifecycleOwner, Observer {
+            it?.let{
+                adapter.submitList(it)
+            }
+        })
 
         return binding.root
     }

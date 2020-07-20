@@ -13,7 +13,8 @@
     <fragment
         android:id="@+id/overviewCatsFragment"
         android:name="com.develop.rs_school.thecatapi.overview.OverviewCatsFragment"
-        android:label="OverviewCatsFragment" >
+        android:label="OverviewCatsFragment"
+        tools:layout="@layout/overview_cats_fragment">
         <action
             android:id="@+id/action_overviewCatsFragment_to_detailCatFragment"
             app:destination="@id/detailCatFragment" />
