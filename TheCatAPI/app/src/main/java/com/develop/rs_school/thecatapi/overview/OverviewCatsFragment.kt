@@ -23,8 +23,15 @@ class OverviewCatsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: OverviewCatsViewModel
 
-    //TODO safeARGS to send param (Cat)
     //TODO RecyclerViewPreloader CLIDE
+    //TODO add network state check
+    //pagination
+    //save to Gallery
+    //detect ktlint
+
+    //opt-----------------
+    //gradle to kotlin
+    //spek2 + mockk
 
     //TODO  to VM, observable later
     private val adapter = CatRecyclerAdapter(CatRecyclerItemListener {
