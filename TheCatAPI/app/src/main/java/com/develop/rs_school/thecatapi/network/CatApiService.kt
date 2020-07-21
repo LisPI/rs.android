@@ -10,7 +10,7 @@ private const val BASE_URL = "https://api.thecatapi.com/"
 
 //TODO add key
 interface CatApiService {
-    @GET("v1/images/search?limit=5&page=10&order=Desc")
+    @GET("v1/images/search?limit=10&page=10&order=Desc")
     suspend fun getCats(): List<Cat>
 }
 

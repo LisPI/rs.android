@@ -23,6 +23,9 @@ class OverviewCatsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: OverviewCatsViewModel
 
+    //TODO safeARGS to send param (Cat)
+    //TODO RecyclerViewPreloader CLIDE
+    //
     private val adapter = CatRecyclerAdapter(CatRecyclerItemListener {
         findNavController().navigate(R.id.action_overviewCatsFragment_to_detailCatFragment)
     })

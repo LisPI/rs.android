@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.develop.rs_school.thecatapi.R
 import com.develop.rs_school.thecatapi.databinding.CatRecyclerItemBinding
 import com.develop.rs_school.thecatapi.network.Cat
 
@@ -19,7 +21,9 @@ class CatRecyclerAdapter(private val itemClickListener: CatRecyclerItemListener)
         }
 
         fun bind(cat: Cat) {
-             Glide.with(itemView.context).load(cat.imageUrl).into(itemBinding.catImage)
+            Glide.with(itemView.context).load(cat.imageUrl)
+                .apply(RequestOptions().placeholder(R.drawable.loading_animation))
+                .into(itemBinding.catImage)
         }
     }
 
