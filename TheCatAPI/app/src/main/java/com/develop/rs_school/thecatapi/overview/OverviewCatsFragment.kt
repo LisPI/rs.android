@@ -8,14 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.develop.rs_school.thecatapi.R
 import com.develop.rs_school.thecatapi.databinding.OverviewCatsFragmentBinding
-import com.develop.rs_school.thecatapi.network.CatApi
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 class OverviewCatsFragment : Fragment() {
 
@@ -24,7 +18,6 @@ class OverviewCatsFragment : Fragment() {
     private lateinit var viewModel: OverviewCatsViewModel
 
     //TODO RecyclerViewPreloader CLIDE
-    //TODO add network state check
     //pagination
     //save to Gallery
     //detect ktlint
@@ -33,9 +26,11 @@ class OverviewCatsFragment : Fragment() {
     //gradle to kotlin
     //spek2 + mockk
 
-    //TODO  to VM, observable later
+    //TODO  to VM, observable later - event
     private val adapter = CatRecyclerAdapter(CatRecyclerItemListener {
-        findNavController().navigate(OverviewCatsFragmentDirections.actionOverviewCatsFragmentToDetailCatFragment(it))
+        findNavController().navigate(
+            OverviewCatsFragmentDirections.actionOverviewCatsFragmentToDetailCatFragment(it)
+        )
     })
 
     override fun onCreateView(
@@ -49,8 +44,26 @@ class OverviewCatsFragment : Fragment() {
         binding.catRecycler.adapter = adapter
 
         viewModel.cats.observe(viewLifecycleOwner, Observer {
-            it?.let{
+            it?.let {
                 adapter.submitList(it)
+            }
+        })
+
+        viewModel.connectionStatus.observe(viewLifecycleOwner, Observer { it ->
+            it?.let {
+                when (it) {
+                    ConnectionStatus.PENDING -> {
+                        binding.errorImage.visibility = View.VISIBLE
+                        binding.errorImage.setImageResource(R.drawable.loading_animation)
+                    }
+                    ConnectionStatus.ERROR -> {
+                        binding.errorImage.visibility = View.VISIBLE
+                        binding.errorImage.setImageResource(R.drawable.connection_error)
+                    }
+                    ConnectionStatus.SUCCESS -> {
+                        binding.errorImage.visibility = View.GONE
+                    }
+                }
             }
         })
 

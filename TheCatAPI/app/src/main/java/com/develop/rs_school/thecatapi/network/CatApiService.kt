@@ -13,7 +13,7 @@ private const val BASE_URL = "https://api.thecatapi.com/"
 //TODO request param (page)
 interface CatApiService {
     @Headers("x-api-key: fae8d3bc-0bd6-4cab-902e-c55793c100a6")
-    @GET("v1/images/search?limit=10&page=10&order=Desc")
+    @GET("v1/images/search?limit=100&page=10&order=Desc")
     suspend fun getCats(): List<Cat>
 }
 

@@ -19,4 +19,14 @@
         tools:itemCount="4"
         tools:listitem="@layout/cat_recycler_item" />
 
+    <ImageView
+        android:id="@+id/error_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/error_image_desc" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

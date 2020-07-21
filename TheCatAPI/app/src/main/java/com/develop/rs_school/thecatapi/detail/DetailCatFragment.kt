@@ -1,11 +1,6 @@
 package com.develop.rs_school.thecatapi.detail
 
-import android.content.ContentValues
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.provider.MediaStore
-import android.transition.Transition
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
