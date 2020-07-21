@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.develop.rs_school.thecatapi.R
 import com.develop.rs_school.thecatapi.databinding.DetailCatFragmentBinding
 
 class DetailCatFragment : Fragment() {
@@ -22,7 +25,14 @@ class DetailCatFragment : Fragment() {
         _binding = DetailCatFragmentBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(DetailCatViewModel::class.java)
 
+        val cat = DetailCatFragmentArgs.fromBundle(requireArguments()).cat
+        binding.catId.text = cat.id
+        Glide.with(requireActivity()).load(cat.imageUrl)
+            .apply(RequestOptions().placeholder(R.drawable.loading_animation))
+            .into(binding.catImage)
+
         return binding.root
+
     }
 
     override fun onDestroyView() {

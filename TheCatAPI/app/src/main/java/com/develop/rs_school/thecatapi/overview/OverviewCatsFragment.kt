@@ -25,9 +25,10 @@ class OverviewCatsFragment : Fragment() {
 
     //TODO safeARGS to send param (Cat)
     //TODO RecyclerViewPreloader CLIDE
-    //
+
+    //TODO  to VM, observable later
     private val adapter = CatRecyclerAdapter(CatRecyclerItemListener {
-        findNavController().navigate(R.id.action_overviewCatsFragment_to_detailCatFragment)
+        findNavController().navigate(OverviewCatsFragmentDirections.actionOverviewCatsFragmentToDetailCatFragment(it))
     })
 
     override fun onCreateView(

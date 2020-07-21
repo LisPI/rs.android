@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TheCatAPI</string>
+    <string name="image_of_cat_desc">Image of cat</string>
 </resources>

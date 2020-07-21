@@ -6,4 +6,5 @@
     android:layout_height="200dp"
     android:scaleType="centerCrop"
     android:padding="2dp"
-    tools:src="@tools:sample/backgrounds/scenic" />
+    tools:src="@tools:sample/backgrounds/scenic"
+    android:contentDescription="@string/image_of_cat_desc" />
