@@ -22,7 +22,10 @@ class CatRecyclerAdapter(private val itemClickListener: CatRecyclerItemListener)
 
         fun bind(cat: Cat) {
             Glide.with(itemView.context).load(cat.imageUrl)
-                .apply(RequestOptions().placeholder(R.drawable.loading_animation))
+                .apply(RequestOptions()
+                    .placeholder(R.drawable.loading_animation)
+                    .error(R.drawable.connection_error)
+                )
                 //.thumbnail(/*sizeMultiplier=*/ 0.1f)
                 .into(itemBinding.catImage)
         }

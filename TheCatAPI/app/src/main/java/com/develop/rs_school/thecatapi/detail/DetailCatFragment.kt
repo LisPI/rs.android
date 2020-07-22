@@ -11,13 +11,18 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.develop.rs_school.thecatapi.R
 import com.develop.rs_school.thecatapi.databinding.DetailCatFragmentBinding
+import com.develop.rs_school.thecatapi.network.Cat
 import java.io.OutputStream
 
 class DetailCatFragment : Fragment() {
@@ -25,6 +30,16 @@ class DetailCatFragment : Fragment() {
     private var _binding: DetailCatFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: DetailCatViewModel
+    private lateinit var viewModelFactory: DetailCatViewModelFactory
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                saveImg(viewModel.cat)
+            } else {
+                Toast.makeText(requireContext(), ":(", Toast.LENGTH_SHORT).show()
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,33 +47,58 @@ class DetailCatFragment : Fragment() {
     ): View? {
 
         _binding = DetailCatFragmentBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this).get(DetailCatViewModel::class.java)
 
-        //TODO view model factory
-        val cat = DetailCatFragmentArgs.fromBundle(requireArguments()).cat
-        binding.catId.text = cat.id
-        /*Glide.with(requireActivity()).asBitmap().load(cat.imageUrl)
-            .apply(RequestOptions().placeholder(R.drawable.loading_animation))
-            .into(binding.catImage)*/
+        viewModelFactory =
+            DetailCatViewModelFactory(DetailCatFragmentArgs.fromBundle(requireArguments()).cat)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(DetailCatViewModel::class.java)
 
+        binding.catId.text = viewModel.cat.id
+        Glide.with(requireActivity())
+            .asBitmap()
+            .load(viewModel.cat.imageUrl)
+            .apply(RequestOptions()
+                .placeholder(R.drawable.loading_animation)
+                .error(R.drawable.connection_error)
+            )
+            .into(binding.catImage)
 
+        binding.catImage.setOnClickListener { saveCatImageToGallery() }
 
+        return binding.root
+    }
+
+    private fun saveCatImageToGallery() {
+        if (PackageManager.PERMISSION_GRANTED ==
+            checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        ) {
+            saveImg(viewModel.cat)
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+    }
+
+    private fun saveImg(cat: Cat) {
         Glide.with(this)
             .asBitmap()
             .load(cat.imageUrl)
-            .into(object : CustomTarget<Bitmap>(){
-                override fun onResourceReady(bitmapResource: Bitmap, transition: Transition<in Bitmap>?) {
+            .into(object : CustomTarget<Bitmap>() {
+                override fun onResourceReady(
+                    bitmapResource: Bitmap,
+                    transition: Transition<in Bitmap>?
+                ) {
                     binding.catImage.setImageBitmap(bitmapResource)
                     val resolver = context?.contentResolver
+                    //TODO refactor - deprecated, handle exit code, bitmapResource - no internet
                     val savedImageURL = MediaStore.Images.Media.insertImage(
                         resolver,
                         bitmapResource,
-                        cat.id+".png",
+                        cat.id + ".png",
                         "Image of ${cat.id}"
                     )
 
                     //saveImage(resource, context!!, "1")
                 }
+
                 override fun onLoadCleared(placeholder: Drawable?) {
                     // this is called when imageView is cleared on lifecycle call or for
                     // some other reason.
@@ -66,9 +106,8 @@ class DetailCatFragment : Fragment() {
                     // clear it here as you can no longer have the bitmap
                 }
             })
-
-        return binding.root
     }
+
     private val collection =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) MediaStore.Video.Media.getContentUri(
             MediaStore.VOLUME_EXTERNAL
@@ -142,21 +181,23 @@ class DetailCatFragment : Fragment() {
 //        }
 //    }
 
-    private fun requestPerm() {
-
-        if (checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
-
-            requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 55)
-
-            // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
-            // app-defined int constant that should be quite unique
-
-            return;
+    private fun requestPermissionWriteToGallery() {
+        when (PackageManager.PERMISSION_GRANTED) {
+            checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) -> {
+                // You can use the API that requires the permission.
+            }
+            else -> {
+                // You can directly ask for the permission.
+                // The registered ActivityResultCallback gets the result of this request.
+                requestPermissionLauncher.launch(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+            }
         }
     }
 
-    private fun contentValues() : ContentValues {
+
+    private fun contentValues(): ContentValues {
         val values = ContentValues()
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/png")
         values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
