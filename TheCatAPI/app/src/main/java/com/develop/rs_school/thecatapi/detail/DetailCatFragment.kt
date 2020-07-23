@@ -54,7 +54,6 @@ class DetailCatFragment : Fragment() {
 
         binding.catId.text = viewModel.cat.id
         Glide.with(requireActivity())
-            .asBitmap()
             .load(viewModel.cat.imageUrl)
             .apply(RequestOptions()
                 .placeholder(R.drawable.loading_animation)

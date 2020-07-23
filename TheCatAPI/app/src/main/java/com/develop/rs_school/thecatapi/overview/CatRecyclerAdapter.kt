@@ -2,6 +2,7 @@ package com.develop.rs_school.thecatapi.overview
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,12 +13,16 @@ import com.develop.rs_school.thecatapi.databinding.CatRecyclerItemBinding
 import com.develop.rs_school.thecatapi.network.Cat
 
 class CatRecyclerAdapter(private val itemClickListener: CatRecyclerItemListener) :
-    ListAdapter<Cat, CatRecyclerAdapter.ViewHolder>(CatDiffUtilCallback()) {
+    PagingDataAdapter<Cat, CatRecyclerAdapter.ViewHolder>(CatDiffUtilCallback()) {
 
     inner class ViewHolder(private val itemBinding: CatRecyclerItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
         init {
-            itemView.setOnClickListener { itemClickListener.onClick(getItem(adapterPosition)) }
+            itemView.setOnClickListener { getItem(adapterPosition)?.let { it1 ->
+                itemClickListener.onClick(
+                    it1
+                )
+            } }
         }
 
         fun bind(cat: Cat) {
@@ -26,7 +31,7 @@ class CatRecyclerAdapter(private val itemClickListener: CatRecyclerItemListener)
                     .placeholder(R.drawable.loading_animation)
                     .error(R.drawable.connection_error)
                 )
-                //.thumbnail(/*sizeMultiplier=*/ 0.1f)
+                .thumbnail(/*sizeMultiplier=*/ 0.1f)
                 .into(itemBinding.catImage)
         }
     }
@@ -36,10 +41,10 @@ class CatRecyclerAdapter(private val itemClickListener: CatRecyclerItemListener)
         val binding = CatRecyclerItemBinding.inflate(layoutInflater, parent, false)
         return ViewHolder(binding)
     }
-
+//TODO bindPlaceHolder
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val cat = getItem(position)
-        holder.bind(cat)
+        cat?.let { holder.bind(it) }
     }
 
 }
