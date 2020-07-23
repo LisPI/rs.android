@@ -23,6 +23,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.develop.rs_school.thecatapi.R
 import com.develop.rs_school.thecatapi.databinding.DetailCatFragmentBinding
 import com.develop.rs_school.thecatapi.network.Cat
+import java.io.IOException
 import java.io.OutputStream
 
 class DetailCatFragment : Fragment() {
@@ -33,12 +34,13 @@ class DetailCatFragment : Fragment() {
     private lateinit var viewModelFactory: DetailCatViewModelFactory
 
     private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if (isGranted) {
-                saveImg(viewModel.cat)
-            } else {
-                Toast.makeText(requireContext(), ":(", Toast.LENGTH_SHORT).show()
-            }
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            isGranted: Boolean ->
+                if (isGranted) {
+                    saveImg(viewModel.cat)
+                } else {
+                    Toast.makeText(requireContext(), ":(", Toast.LENGTH_SHORT).show()
+                }
         }
 
     override fun onCreateView(
@@ -198,18 +200,22 @@ class DetailCatFragment : Fragment() {
     private fun contentValues(): ContentValues {
         val values = ContentValues()
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/png")
-        values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000)
+        // values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000)
         values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis())
         return values
+    }
+
+    companion object {
+        private const val bitmapCompressQuality = 100
     }
 
     private fun saveImageToStream(bitmap: Bitmap, outputStream: OutputStream?) {
         if (outputStream != null) {
             try {
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+                bitmap.compress(Bitmap.CompressFormat.PNG, bitmapCompressQuality, outputStream)
                 outputStream.close()
-            } catch (e: Exception) {
-                e.printStackTrace()
+            } catch (exception: IOException) {
+                return exception.printStackTrace()
             }
         }
     }

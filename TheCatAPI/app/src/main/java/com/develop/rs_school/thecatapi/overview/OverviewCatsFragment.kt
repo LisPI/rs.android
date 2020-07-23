@@ -71,9 +71,7 @@ class OverviewCatsFragment : Fragment() {
             header = PagingLoadStateAdapter { adapter.retry() },
             footer = PagingLoadStateAdapter { adapter.retry() }
         )
-        // TODO add image no internet
         adapter.addLoadStateListener { loadState ->
-            // Show the retry state if initial load or refresh fails.
             if (loadState.source.refresh is LoadState.Error) {
                 binding.retryButton.isVisible = true
                 binding.errorImage.isVisible = true

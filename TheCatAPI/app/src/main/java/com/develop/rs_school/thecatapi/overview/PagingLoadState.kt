@@ -37,12 +37,16 @@ class PagingLoadStateHolder(
     }
 }
 
-class PagingLoadStateAdapter(private val retry: () -> Unit) : LoadStateAdapter<PagingLoadStateHolder>() {
+class PagingLoadStateAdapter(private val retry: () -> Unit) :
+    LoadStateAdapter<PagingLoadStateHolder>() {
     override fun onBindViewHolder(holder: PagingLoadStateHolder, loadState: LoadState) {
         holder.bind(loadState)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): PagingLoadStateHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        loadState: LoadState
+    ): PagingLoadStateHolder {
         return PagingLoadStateHolder.create(parent, retry)
     }
 }

@@ -16,15 +16,13 @@ buildscript {
         classpath "com.android.tools.build:gradle:4.0.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$version_navigation"
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
 
 plugins {
     id "com.autonomousapps.dependency-analysis" version "0.54.0"
     id "org.jlleitschuh.gradle.ktlint" version "9.2.1"
+    id "io.gitlab.arturbosch.detekt" version "1.10.0"
 }
 
 subprojects {
@@ -35,6 +33,15 @@ subprojects {
         debug.set(false)
     }
 }
+
+detekt {
+    toolVersion = "1.10.0"
+    config = files("config/detekt/detekt.yml")
+    buildUponDefaultConfig = true
+    failFast = true
+    input = files("app/src/main/java", "app/src/main/kotlin")
+}
+
 
 allprojects {
     repositories {
