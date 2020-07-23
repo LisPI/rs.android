@@ -44,7 +44,6 @@ class CatRecyclerAdapter(private val itemClickListener: CatRecyclerItemListener)
         val cat = getItem(position)
         cat?.let { holder.bind(it) }
     }
-
 }
 
 class CatDiffUtilCallback : DiffUtil.ItemCallback<Cat>() {
@@ -55,10 +54,8 @@ class CatDiffUtilCallback : DiffUtil.ItemCallback<Cat>() {
     override fun areContentsTheSame(oldItem: Cat, newItem: Cat): Boolean {
         return oldItem.id == newItem.id
     }
-
 }
 
 class CatRecyclerItemListener(val clickListener: (cat: Cat) -> Unit) {
     fun onClick(cat: Cat) = clickListener(cat)
 }
-

@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.develop.rs_school.thecatapi.databinding.OverviewCatsFragmentBinding
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 
 class OverviewCatsFragment : Fragment() {
@@ -20,16 +20,16 @@ class OverviewCatsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: OverviewCatsViewModel
 
-    //TODO RecyclerViewPreloader CLIDE
-    //pagination
-    //save to Gallery
-    //detect ktlint
+    // TODO RecyclerViewPreloader CLIDE
+    // pagination
+    // save to Gallery
+    // detect ktlint
 
-    //opt-----------------
-    //gradle to kotlin
-    //spek2 + mockk
+    // opt-----------------
+    // gradle to kotlin
+    // spek2 + mockk
 
-    //TODO  to VM, observable later - event
+    // TODO  to VM, observable later - event
     private val adapter = CatRecyclerAdapter(CatRecyclerItemListener {
         findNavController().navigate(
             OverviewCatsFragmentDirections.actionOverviewCatsFragmentToDetailCatFragment(it)
@@ -38,7 +38,8 @@ class OverviewCatsFragment : Fragment() {
 
     @ExperimentalCoroutinesApi
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
@@ -70,18 +71,16 @@ class OverviewCatsFragment : Fragment() {
             header = PagingLoadStateAdapter { adapter.retry() },
             footer = PagingLoadStateAdapter { adapter.retry() }
         )
-        //TODO add image no internet
+        // TODO add image no internet
         adapter.addLoadStateListener { loadState ->
             // Show the retry state if initial load or refresh fails.
-            if(loadState.source.refresh is LoadState.Error)
-            {
+            if (loadState.source.refresh is LoadState.Error) {
                 binding.retryButton.isVisible = true
                 binding.errorImage.isVisible = true
                 binding.catRecycler.isVisible = false
             }
 
-            if(loadState.source.refresh is LoadState.NotLoading)
-            {
+            if (loadState.source.refresh is LoadState.NotLoading) {
                 binding.retryButton.isVisible = false
                 binding.errorImage.isVisible = false
                 binding.catRecycler.isVisible = true
@@ -93,5 +92,4 @@ class OverviewCatsFragment : Fragment() {
         _binding = null
         super.onDestroyView()
     }
-
 }

@@ -42,7 +42,8 @@ class DetailCatFragment : Fragment() {
         }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
@@ -55,9 +56,10 @@ class DetailCatFragment : Fragment() {
         binding.catId.text = viewModel.cat.id
         Glide.with(requireActivity())
             .load(viewModel.cat.imageUrl)
-            .apply(RequestOptions()
-                .placeholder(R.drawable.loading_animation)
-                .error(R.drawable.connection_error)
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.loading_animation)
+                    .error(R.drawable.connection_error)
             )
             .into(binding.catImage)
 
@@ -87,7 +89,7 @@ class DetailCatFragment : Fragment() {
                 ) {
                     binding.catImage.setImageBitmap(bitmapResource)
                     val resolver = context?.contentResolver
-                    //TODO refactor - deprecated, handle exit code, bitmapResource - no internet
+                    // TODO refactor - deprecated, handle exit code, bitmapResource - no internet
                     val savedImageURL = MediaStore.Images.Media.insertImage(
                         resolver,
                         bitmapResource,
@@ -95,7 +97,7 @@ class DetailCatFragment : Fragment() {
                         "Image of ${cat.id}"
                     )
 
-                    //saveImage(resource, context!!, "1")
+                    // saveImage(resource, context!!, "1")
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
@@ -115,8 +117,8 @@ class DetailCatFragment : Fragment() {
 //    private fun saveImage() {
 //        val resolver = context?.contentResolver!!
 //
-//// Find all audio files on the primary external storage device.
-//// On API <= 28, use VOLUME_EXTERNAL instead.
+// // Find all audio files on the primary external storage device.
+// // On API <= 28, use VOLUME_EXTERNAL instead.
 //        val audioCollection = MediaStore.Audio.Media
 //            .getContentUri(MediaStore.VOLUME_EXTERNAL)
 //
@@ -133,16 +135,14 @@ class DetailCatFragment : Fragment() {
 //            }
 //        }
 //
-//// Now that we're finished, release the "pending" status, and allow other apps
-//// to play the audio track.
+// // Now that we're finished, release the "pending" status, and allow other apps
+// // to play the audio track.
 //        songDetails.clear()
 //        songDetails.put(MediaStore.Audio.Media.IS_PENDING, 0)
 //        if (songContentUri != null) {
 //            resolver.update(songContentUri, songDetails, null, null)
 //        }
-//
-//    }
-
+// //    }
 
 //    /// @param folderName can be your app's name
 //    private fun saveImage(bitmap: Bitmap, context: Context, folderName: String) {
@@ -195,12 +195,11 @@ class DetailCatFragment : Fragment() {
         }
     }
 
-
     private fun contentValues(): ContentValues {
         val values = ContentValues()
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/png")
-        values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
-        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
+        values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000)
+        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis())
         return values
     }
 
@@ -215,10 +214,8 @@ class DetailCatFragment : Fragment() {
         }
     }
 
-
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
     }
-
 }
