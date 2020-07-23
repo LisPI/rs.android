@@ -10,7 +10,9 @@ class CatPagingSource(): PagingSource<Int, Cat>(){
             val page = params.key ?: 1
             val size = params.loadSize
             val response = CatApi.retrofitService.getCats(page, size)
-            return LoadResult.Page(data = response, prevKey = page - 1, nextKey = page + 1)
+            return LoadResult.Page(data = response,
+                prevKey = if(page==0) null else page - 1,
+                nextKey = if(response.isEmpty()) null else page + 1)
         }
         catch(e: Exception){
             return LoadResult.Error(e)

@@ -9,11 +9,11 @@ import retrofit2.http.Headers
 import retrofit2.http.Query
 
 private const val BASE_URL = "https://api.thecatapi.com/"
-
+private const val API_KEY = "fae8d3bc-0bd6-4cab-902e-c55793c100a6"
 //TODO key to resource?
 //TODO request param (page)
 interface CatApiService {
-    @Headers("x-api-key: fae8d3bc-0bd6-4cab-902e-c55793c100a6")
+    @Headers("x-api-key: $API_KEY")
     @GET("v1/images/search?order=Asc")
     suspend fun getCats(
         @Query(value = "page") page : Int,

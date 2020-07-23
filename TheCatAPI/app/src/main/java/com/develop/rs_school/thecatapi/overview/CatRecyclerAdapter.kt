@@ -18,20 +18,19 @@ class CatRecyclerAdapter(private val itemClickListener: CatRecyclerItemListener)
     inner class ViewHolder(private val itemBinding: CatRecyclerItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
         init {
-            itemView.setOnClickListener { getItem(adapterPosition)?.let { it1 ->
-                itemClickListener.onClick(
-                    it1
-                )
-            } }
+            itemView.setOnClickListener {
+                getItem(bindingAdapterPosition)?.let { itemClickListener.onClick(it) }
+            }
         }
 
         fun bind(cat: Cat) {
             Glide.with(itemView.context).load(cat.imageUrl)
-                .apply(RequestOptions()
-                    .placeholder(R.drawable.loading_animation)
-                    .error(R.drawable.connection_error)
+                .apply(
+                    RequestOptions()
+                        .placeholder(R.drawable.loading_animation)
+                        .error(R.drawable.connection_error)
                 )
-                .thumbnail(/*sizeMultiplier=*/ 0.1f)
+                .thumbnail(0.1f)
                 .into(itemBinding.catImage)
         }
     }
@@ -41,7 +40,7 @@ class CatRecyclerAdapter(private val itemClickListener: CatRecyclerItemListener)
         val binding = CatRecyclerItemBinding.inflate(layoutInflater, parent, false)
         return ViewHolder(binding)
     }
-//TODO bindPlaceHolder
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val cat = getItem(position)
         cat?.let { holder.bind(it) }
