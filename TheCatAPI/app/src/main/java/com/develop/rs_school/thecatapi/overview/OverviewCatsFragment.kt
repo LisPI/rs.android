@@ -47,13 +47,20 @@ class OverviewCatsFragment : Fragment() {
 
         initRecyclerAdapter()
 
-        lifecycleScope.launch {
+        binding.swipeRefresh.setOnRefreshListener { adapter.refresh() }
+        binding.retryButton.setOnClickListener { adapter.retry() }
+
+        lifecycleScope.launchWhenCreated {
             viewModel.cats.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
             }
         }
 
-        binding.retryButton.setOnClickListener { adapter.retry() }
+        lifecycleScope.launchWhenCreated {
+            adapter.loadStateFlow.collectLatest { loadStates ->
+                binding.swipeRefresh.isRefreshing = loadStates.refresh is LoadState.Loading
+            }
+        }
 
         return binding.root
     }
@@ -65,12 +72,20 @@ class OverviewCatsFragment : Fragment() {
         )
         //TODO add image no internet
         adapter.addLoadStateListener { loadState ->
-            // Only show the list if refresh succeeds.
-            binding.catRecycler.isVisible = loadState.source.refresh is LoadState.NotLoading
-            // Show loading spinner during initial load or refresh.
-            binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
             // Show the retry state if initial load or refresh fails.
-            binding.retryButton.isVisible = loadState.source.refresh is LoadState.Error
+            if(loadState.source.refresh is LoadState.Error)
+            {
+                binding.retryButton.isVisible = true
+                binding.errorImage.isVisible = true
+                binding.catRecycler.isVisible = false
+            }
+
+            if(loadState.source.refresh is LoadState.NotLoading)
+            {
+                binding.retryButton.isVisible = false
+                binding.errorImage.isVisible = false
+                binding.catRecycler.isVisible = true
+            }
         }
     }
 
