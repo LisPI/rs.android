@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -20,11 +21,8 @@ class OverviewCatsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: OverviewCatsViewModel
 
-    // TODO  to VM, observable later - event
-    private val adapter = CatRecyclerAdapter(CatRecyclerItemListener {
-        findNavController().navigate(
-            OverviewCatsFragmentDirections.actionOverviewCatsFragmentToDetailCatFragment(it)
-        )
+    private val adapter = CatRecyclerAdapter(CatRecyclerItemListener { cat ->
+        viewModel.onCatClicked(cat)
     })
 
     @ExperimentalCoroutinesApi
@@ -53,6 +51,15 @@ class OverviewCatsFragment : Fragment() {
                 binding.swipeRefresh.isRefreshing = loadStates.refresh is LoadState.Loading
             }
         }
+
+        viewModel.navigateToDetailCat.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(
+                    OverviewCatsFragmentDirections.actionOverviewCatsFragmentToDetailCatFragment(it)
+                )
+                viewModel.onDetailCatNavigated()
+            }
+        })
 
         return binding.root
     }

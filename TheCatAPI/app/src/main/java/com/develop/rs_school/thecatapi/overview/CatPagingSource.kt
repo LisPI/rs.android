@@ -3,7 +3,6 @@ package com.develop.rs_school.thecatapi.overview
 import androidx.paging.PagingSource
 import com.develop.rs_school.thecatapi.network.Cat
 import com.develop.rs_school.thecatapi.network.CatApi
-import java.net.UnknownHostException
 
 class CatPagingSource : PagingSource<Int, Cat>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Cat> {
