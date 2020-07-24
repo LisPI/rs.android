@@ -7,13 +7,14 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 
-fun saveBitmapImage(
+fun saveBitmapImageToPNGFile(
     bitmap: Bitmap,
     compressQuality: Int,
-    fileName: String,
+    bitmapFileNameUrl: String,
     context: Context
 ): Uri? {
     val resolver = context.contentResolver
+    val fileName = getFilenameFromUrl(bitmapFileNameUrl) ?: System.currentTimeMillis().toString()
 
     val imagesCollection =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
@@ -21,8 +22,8 @@ fun saveBitmapImage(
         else MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 
     val imageDetails = ContentValues().apply {
-        put(MediaStore.Images.Media.TITLE, "$fileName.png")
-        put(MediaStore.Images.Media.DISPLAY_NAME, "$fileName.png")
+        put(MediaStore.Images.Media.TITLE, fileName)
+        put(MediaStore.Images.Media.DISPLAY_NAME, fileName)
         put(MediaStore.Images.Media.MIME_TYPE, "image/png")
         put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis())
     }
@@ -45,4 +46,8 @@ fun saveBitmapImage(
     }
 
     return imageContentUri
+}
+
+fun getFilenameFromUrl(fileNameUrl: String): String? {
+    return fileNameUrl.substringAfterLast('/').substringBeforeLast('.')
 }

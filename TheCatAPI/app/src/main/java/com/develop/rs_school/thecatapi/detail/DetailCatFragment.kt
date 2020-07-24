@@ -23,7 +23,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.develop.rs_school.thecatapi.R
 import com.develop.rs_school.thecatapi.databinding.DetailCatFragmentBinding
 import com.develop.rs_school.thecatapi.network.Cat
-import com.develop.rs_school.thecatapi.saveBitmapImage
+import com.develop.rs_school.thecatapi.saveBitmapImageToPNGFile
 import com.google.android.material.snackbar.Snackbar
 
 class DetailCatFragment : Fragment() {
@@ -106,21 +106,23 @@ class DetailCatFragment : Fragment() {
                 ) {
                     val savedImageURI =
                         context?.let {
-                            saveBitmapImage(bitmapResource, bitmapCompressQuality, cat.id, it)
+                            saveBitmapImageToPNGFile(
+                                bitmapResource,
+                                bitmapCompressQuality,
+                                cat.imageUrl,
+                                it
+                            )
                         }
 
                     if (savedImageURI != null)
-                        Snackbar.make(
-                            binding.root,
-                            getString(R.string.ImageSaved),
-                            Snackbar.LENGTH_SHORT
-                        ).show()
+                        showSnackbar(getString(R.string.ImageSaved))
                     else
-                        Snackbar.make(
-                            binding.root,
-                            getString(R.string.ImageSaveError),
-                            Snackbar.LENGTH_SHORT
-                        ).show()
+                        showSnackbar(getString(R.string.ImageSaveError))
+                }
+
+                override fun onLoadFailed(errorDrawable: Drawable?) {
+                    super.onLoadFailed(errorDrawable)
+                    showSnackbar(getString(R.string.ImageSaveError))
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
@@ -128,6 +130,14 @@ class DetailCatFragment : Fragment() {
                     // some other reason.
                 }
             })
+    }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(
+            binding.root,
+            message,
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     override fun onDestroyView() {
