@@ -22,8 +22,9 @@ fun saveBitmapImage(
 
     val imageDetails = ContentValues().apply {
         put(MediaStore.Images.Media.TITLE, "$fileName.png")
-        put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis())
+        put(MediaStore.Images.Media.DISPLAY_NAME, "$fileName.png")
         put(MediaStore.Images.Media.MIME_TYPE, "image/png")
+        put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis())
     }
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         imageDetails.put(MediaStore.Images.Media.IS_PENDING, 1)

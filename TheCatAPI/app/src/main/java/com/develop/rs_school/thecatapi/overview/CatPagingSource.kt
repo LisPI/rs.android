@@ -16,7 +16,7 @@ class CatPagingSource : PagingSource<Int, Cat>() {
                 prevKey = if (page == 0) null else page - 1,
                 nextKey = if (response.isEmpty()) null else page + 1
             )
-        } catch (exception: UnknownHostException) {
+        } catch (exception: Exception) {
             return LoadResult.Error(exception)
         }
     }
