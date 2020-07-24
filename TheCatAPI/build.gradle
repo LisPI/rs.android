@@ -4,7 +4,7 @@ buildscript {
     ext.version_navigation = '2.3.0'
     ext.paging_version = "3.0.0-alpha03"
     ext.retrofit_version = "2.9.0"
-    ext.moshi_version = "1.9.2"
+    ext.moshi_version = '1.9.3'
     repositories {
         google()
         jcenter()
@@ -41,7 +41,7 @@ detekt {
     failFast = true
     input = files("app/src/main/java", "app/src/main/kotlin")
 }
-
+tasks.detekt.jvmTarget = "1.8"
 
 allprojects {
     repositories {

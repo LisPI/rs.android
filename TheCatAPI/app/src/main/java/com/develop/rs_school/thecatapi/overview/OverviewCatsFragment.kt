@@ -20,15 +20,6 @@ class OverviewCatsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: OverviewCatsViewModel
 
-    // TODO RecyclerViewPreloader CLIDE
-    // pagination
-    // save to Gallery
-    // detect ktlint
-
-    // opt-----------------
-    // gradle to kotlin
-    // spek2 + mockk
-
     // TODO  to VM, observable later - event
     private val adapter = CatRecyclerAdapter(CatRecyclerItemListener {
         findNavController().navigate(
@@ -52,7 +43,7 @@ class OverviewCatsFragment : Fragment() {
         binding.retryButton.setOnClickListener { adapter.retry() }
 
         lifecycleScope.launchWhenCreated {
-            viewModel.cats.collectLatest { pagingData ->
+            viewModel.catsFlow.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
             }
         }

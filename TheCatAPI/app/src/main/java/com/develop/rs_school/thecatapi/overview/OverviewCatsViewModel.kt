@@ -12,7 +12,7 @@ class OverviewCatsViewModel : ViewModel() {
         private const val PAGE_SIZE = 20
     }
 
-    val cats =
+    val catsFlow =
         Pager(config = PagingConfig(pageSize = PAGE_SIZE)) { CatPagingSource() }
             .flow.cachedIn(viewModelScope)
 }
