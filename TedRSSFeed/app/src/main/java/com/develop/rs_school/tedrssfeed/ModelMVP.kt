@@ -1,6 +1,7 @@
 package com.develop.rs_school.tedrssfeed
 
 import android.content.Context
+import moxy.MvpView
 import org.json.JSONObject
 import kotlin.random.Random
 
