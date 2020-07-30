@@ -24,9 +24,12 @@ class RssFeedRecyclerAdapter(private val itemClickListener: RssRecyclerItemListe
         }
 
         fun bind(rssItem: RssItem) {
-            Glide.with(itemView.context).load(rssItem.url)
+            Glide.with(itemView.context).load(rssItem.imageUrl)
                 .thumbnail(GLIDE_THUMBNAIL_SIZE)
                 .into(itemBinding.rssImage)
+            itemBinding.duration.text = rssItem.duration
+            itemBinding.title.text = rssItem.title
+            itemBinding.speaker.text = rssItem.speaker
         }
     }
 

@@ -14,6 +14,7 @@ class MainActivity : MvpAppCompatActivity(), ViewMVP, RssOverviewView {
 
     @InjectPresenter
     lateinit var presenter: RssOverviewPresenter
+
     //private val model?
     @ProvidePresenter
     fun providePresenter() = RssOverviewPresenter()

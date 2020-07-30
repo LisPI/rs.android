@@ -1,9 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout  xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rss_image"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
-    android:scaleType="centerCrop"
-    android:padding="2dp"
-    tools:src="@tools:sample/backgrounds/scenic" />
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@color/cardview_dark_background"
+        android:ellipsize="none"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@color/material_on_primary_emphasis_high_type"
+        app:layout_constraintBottom_toBottomOf="@+id/materialCardView"
+        app:layout_constraintEnd_toEndOf="@+id/materialCardView"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="@+id/materialCardView"
+        tools:text="01:10" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
+        android:layout_width="188dp"
+        android:layout_height="113dp"
+        android:layout_marginStart="8dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="-1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/rss_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            tools:src="@tools:sample/backgrounds/scenic" />
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/name_tv"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            tools:text="For test"-->
+        <!--            android:textAppearance="?attr/textAppearanceHeadline6"-->
+        <!--            />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/city_tv"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="8dp"-->
+        <!--            tools:text="For test"-->
+        <!--            android:textAppearance="?attr/textAppearanceBody2"-->
+        <!--            android:textColor="?android:attr/textColorSecondary"-->
+        <!--            />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/dob_tv"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="16dp"-->
+        <!--            tools:text="For test"-->
+        <!--            android:textAppearance="?attr/textAppearanceBody2"-->
+        <!--            android:textColor="?android:attr/textColorSecondary"-->
+        <!--            />-->
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/speaker"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="?android:attr/textColorSecondary"
+        app:layout_constraintStart_toEndOf="@+id/materialCardView"
+        app:layout_constraintTop_toTopOf="@+id/materialCardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Ggggggg rgfd egreg erg er ger g" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="0dp"
+        android:textAppearance="?attr/textAppearanceSubtitle2"
+        android:textColor="?android:attr/textColorPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/materialCardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/speaker"
+        app:layout_constraintTop_toBottomOf="@+id/speaker"
+        tools:text="Ggggggg rgfd egreg erg er gegdfgergttrh rtwh rth wthw gr th trh trh rtwh rth wtrh tr hwtr hwrth wtrh wrth wtrh wtr h rt hr g" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
