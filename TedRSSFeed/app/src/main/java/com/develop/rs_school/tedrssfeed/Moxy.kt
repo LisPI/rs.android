@@ -1,21 +1,28 @@
 package com.develop.rs_school.tedrssfeed
 
+import moxy.InjectViewState
 import moxy.MvpPresenter
 import moxy.MvpView
-import moxy.viewstate.strategy.AddToEndSingleStrategy
-import moxy.viewstate.strategy.StateStrategyType
+import moxy.viewstate.strategy.*
+import moxy.viewstate.strategy.alias.AddToEnd
 import org.json.JSONArray
 import org.json.JSONObject
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface RssOverviewView : MvpView {
     fun showRssFeed(rssFeed: List<RssItem>)
+    @StateStrategyType(SkipStrategy::class)
+    fun goToDetailView(rssItem: RssItem)
 }
 
 //model in constructor?
 class RssOverviewPresenter : MvpPresenter<RssOverviewView>() {
-    init {
+    init{
         viewState.showRssFeed(getRssItems())
+    }
+    //TODO pass id and in another screen get by id from repository
+    fun rssItemClicked(rssItem: RssItem) {
+        viewState.goToDetailView(rssItem)
     }
 }
 

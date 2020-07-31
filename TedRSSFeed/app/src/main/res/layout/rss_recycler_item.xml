@@ -6,23 +6,6 @@
     android:layout_height="wrap_content"
     android:padding="8dp">
 
-    <TextView
-        android:id="@+id/duration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:background="@color/cardview_dark_background"
-        android:ellipsize="none"
-        android:paddingStart="4dp"
-        android:paddingEnd="4dp"
-        android:textAppearance="?attr/textAppearanceBody2"
-        android:textColor="@color/material_on_primary_emphasis_high_type"
-        app:layout_constraintBottom_toBottomOf="@+id/materialCardView"
-        app:layout_constraintEnd_toEndOf="@+id/materialCardView"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toStartOf="@+id/materialCardView"
-        tools:text="01:10" />
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:layout_width="188dp"
@@ -34,7 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <ImageView
             android:id="@+id/rss_image"
             android:layout_width="match_parent"
@@ -42,33 +24,23 @@
             android:scaleType="center"
             tools:src="@tools:sample/backgrounds/scenic" />
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/name_tv"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            tools:text="For test"-->
-        <!--            android:textAppearance="?attr/textAppearanceHeadline6"-->
-        <!--            />-->
-        <!--        <TextView-->
-        <!--            android:id="@+id/city_tv"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="8dp"-->
-        <!--            tools:text="For test"-->
-        <!--            android:textAppearance="?attr/textAppearanceBody2"-->
-        <!--            android:textColor="?android:attr/textColorSecondary"-->
-        <!--            />-->
-        <!--        <TextView-->
-        <!--            android:id="@+id/dob_tv"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="16dp"-->
-        <!--            tools:text="For test"-->
-        <!--            android:textAppearance="?attr/textAppearanceBody2"-->
-        <!--            android:textColor="?android:attr/textColorSecondary"-->
-        <!--            />-->
-
     </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/cardview_dark_background"
+        android:ellipsize="none"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@color/material_on_primary_emphasis_high_type"
+        app:layout_constraintBottom_toBottomOf="@+id/materialCardView"
+        app:layout_constraintEnd_toEndOf="@+id/materialCardView"
+        tools:text="01:10" />
 
     <TextView
         android:id="@+id/speaker"
@@ -88,7 +60,7 @@
         android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="2dp"
         android:textAppearance="?attr/textAppearanceSubtitle2"
         android:textColor="?android:attr/textColorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/materialCardView"
