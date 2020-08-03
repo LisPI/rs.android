@@ -14,7 +14,7 @@ import com.develop.rs_school.thecatapi.network.Cat
 class CatRecyclerAdapter(private val itemClickListener: CatRecyclerItemListener) :
     PagingDataAdapter<Cat, CatRecyclerAdapter.ViewHolder>(CatDiffUtilCallback()) {
 
-    companion object {
+    private companion object {
         private const val GLIDE_THUMBNAIL_SIZE = 0.1f
     }
 

@@ -10,7 +10,7 @@ import com.develop.rs_school.thecatapi.network.Cat
 
 class OverviewCatsViewModel : ViewModel() {
 
-    companion object {
+    private companion object {
         private const val PAGE_SIZE = 20
     }
 

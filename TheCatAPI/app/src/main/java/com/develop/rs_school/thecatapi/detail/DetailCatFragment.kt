@@ -33,7 +33,7 @@ class DetailCatFragment : Fragment() {
     private lateinit var viewModel: DetailCatViewModel
     private lateinit var viewModelFactory: DetailCatViewModelFactory
 
-    companion object {
+    private companion object {
         private const val bitmapCompressQuality = 100
     }
 
@@ -56,7 +56,6 @@ class DetailCatFragment : Fragment() {
                     .error(R.drawable.connection_error)
             )
             .into(binding.catImage)
-
         setHasOptionsMenu(true)
         return binding.root
     }
