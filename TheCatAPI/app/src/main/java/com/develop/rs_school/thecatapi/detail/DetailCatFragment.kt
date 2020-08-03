@@ -69,7 +69,8 @@ class DetailCatFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        saveCatImageToGallery()
+        if (item.itemId == R.id.save_image_menu_item)
+            saveCatImageToGallery()
         return super.onOptionsItemSelected(item)
     }
 
