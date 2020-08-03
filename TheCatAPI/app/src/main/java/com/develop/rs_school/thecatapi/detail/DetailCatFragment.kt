@@ -29,7 +29,7 @@ import com.google.android.material.snackbar.Snackbar
 class DetailCatFragment : Fragment() {
 
     private var _binding: DetailCatFragmentBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = requireNotNull(_binding)
     private lateinit var viewModel: DetailCatViewModel
     private lateinit var viewModelFactory: DetailCatViewModelFactory
 
@@ -42,8 +42,12 @@ class DetailCatFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = DetailCatFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModelFactory =
             DetailCatViewModelFactory(DetailCatFragmentArgs.fromBundle(requireArguments()).cat)
         viewModel = ViewModelProvider(this, viewModelFactory).get(DetailCatViewModel::class.java)
@@ -57,7 +61,6 @@ class DetailCatFragment : Fragment() {
             )
             .into(binding.catImage)
         setHasOptionsMenu(true)
-        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -18,21 +18,25 @@ import kotlinx.coroutines.flow.collectLatest
 class OverviewCatsFragment : Fragment() {
 
     private var _binding: OverviewCatsFragmentBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = requireNotNull(_binding)
     private lateinit var viewModel: OverviewCatsViewModel
 
     private val adapter = CatRecyclerAdapter(CatRecyclerItemListener { cat ->
         viewModel.onCatClicked(cat)
     })
 
-    @ExperimentalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = OverviewCatsFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(OverviewCatsViewModel::class.java)
 
         initRecyclerAdapter()
@@ -60,8 +64,6 @@ class OverviewCatsFragment : Fragment() {
                 viewModel.onDetailCatNavigated()
             }
         })
-
-        return binding.root
     }
 
     private fun initRecyclerAdapter() {
