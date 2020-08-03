@@ -61,7 +61,6 @@ class OverviewCatsFragment : Fragment() {
                 findNavController().navigate(
                     OverviewCatsFragmentDirections.actionOverviewCatsFragmentToDetailCatFragment(it)
                 )
-                viewModel.onDetailCatNavigated()
             }
         })
     }
