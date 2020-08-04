@@ -11,7 +11,7 @@ import com.develop.rs_school.tedrssfeed.databinding.RssRecyclerItemBinding
 class RssFeedRecyclerAdapter(private val itemClickListener: RssRecyclerItemListener) :
     ListAdapter<RssItem, RssFeedRecyclerAdapter.ViewHolder>(RssFeedDiffUtilCallback()) {
 
-    companion object {
+    private companion object {
         private const val GLIDE_THUMBNAIL_SIZE = 0.1f
     }
 
