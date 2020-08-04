@@ -29,6 +29,7 @@ class RssOverviewPresenter : MvpPresenter<RssOverviewView>() {
 //TODO format - 00:01:43 to 01:43
 //TODO textView shapeLayout for round corner
 //TODO refactor this
+//GSON
 fun getRssItems(): List<RssItem> {
     val rssItems = mutableListOf<RssItem>()
     val jsonString = App.instance.applicationContext.assets.open("data.json").bufferedReader()

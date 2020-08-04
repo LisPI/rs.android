@@ -6,6 +6,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class RssItem(
     val title: String,
+    //TODO list
     val speaker: String,
     val duration: String,
     val imageUrl: String,

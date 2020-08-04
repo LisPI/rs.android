@@ -3,9 +3,15 @@ package com.develop.rs_school.tedrssfeed
 import android.content.Intent
 import android.os.Bundle
 import com.develop.rs_school.tedrssfeed.databinding.ActivityMainBinding
+import com.develop.rs_school.tedrssfeed.network.RssApi
+import com.develop.rs_school.tedrssfeed.network.RssFeedXMLService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
+import okhttp3.Dispatcher
 
 class MainActivity : MvpAppCompatActivity(), RssOverviewView {
 
@@ -27,8 +33,17 @@ class MainActivity : MvpAppCompatActivity(), RssOverviewView {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //https://www.ted.com/themes/rss/id
         binding.rssRecycler.adapter = adapter
+
+
+        CoroutineScope(Dispatchers.Main).launch {
+            with(Dispatchers.IO){
+                val t = RssApi.retrofitService.getXML()
+                val g = 3
+
+            }
+        }
+
     }
 
     override fun showRssFeed(rssFeed: List<RssItem>) {
