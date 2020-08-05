@@ -28,8 +28,8 @@ class RssFeedRecyclerAdapter(private val itemClickListener: RssRecyclerItemListe
                 .thumbnail(GLIDE_THUMBNAIL_SIZE)
                 .into(itemBinding.rssImage)
             itemBinding.duration.text = rssItem.duration
-            itemBinding.title.text = rssItem.title
-            itemBinding.speaker.text = rssItem.speaker.first()
+            itemBinding.title.text = rssItem.title.substringBeforeLast("|")
+            itemBinding.speaker.text = rssItem.speakers.joinToString(separator = " and ")
         }
     }
 

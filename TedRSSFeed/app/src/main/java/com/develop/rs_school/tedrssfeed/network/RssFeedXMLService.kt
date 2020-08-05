@@ -17,7 +17,9 @@ object RssApi {
     private val retrofit = Retrofit.Builder()
         .addConverterFactory(
             TikXmlConverterFactory.create(
-                TikXml.Builder().exceptionOnUnreadXml(false).build()
+                TikXml.Builder()
+                    .exceptionOnUnreadXml(false)
+                    .build()
             )
         )
         .baseUrl(BASE_URL)

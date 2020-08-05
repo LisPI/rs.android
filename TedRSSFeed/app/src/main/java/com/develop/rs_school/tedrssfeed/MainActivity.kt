@@ -2,28 +2,25 @@ package com.develop.rs_school.tedrssfeed
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import com.develop.rs_school.tedrssfeed.databinding.ActivityMainBinding
-import com.develop.rs_school.tedrssfeed.network.RssApi
-import com.develop.rs_school.tedrssfeed.network.RssFeedXMLService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
-import okhttp3.Dispatcher
 
 class MainActivity : MvpAppCompatActivity(), RssOverviewView {
 
     @InjectPresenter
     lateinit var presenter: RssOverviewPresenter
 
-    //private val model?
     @ProvidePresenter
     fun providePresenter() = RssOverviewPresenter()
 
     private lateinit var binding: ActivityMainBinding
 
+    //TODO MVP ?  in Presenter
     private val adapter = RssFeedRecyclerAdapter(RssRecyclerItemListener { rssItem ->
         presenter.rssItemClicked(rssItem)
     })
@@ -34,26 +31,6 @@ class MainActivity : MvpAppCompatActivity(), RssOverviewView {
         setContentView(binding.root)
 
         binding.rssRecycler.adapter = adapter
-
-
-        CoroutineScope(Dispatchers.Main).launch {
-            with(Dispatchers.IO) {
-                val feed = RssApi.retrofitService.getXML()
-                val t = feed.itemList.map { result ->
-                    RssItem(
-                        title = result.title,
-                        description = result.description.substringBeforeLast("|"),
-                        imageUrl = result.image.url,
-                        videoUrl = result.video.url,
-                        duration = result.duration,
-                        speaker = result.credit.map { it.speaker }
-                    )
-                }
-                t[2]
-
-            }
-        }
-
     }
 
     override fun showRssFeed(rssFeed: List<RssItem>) {
@@ -64,6 +41,22 @@ class MainActivity : MvpAppCompatActivity(), RssOverviewView {
         val intent = Intent(this, RssItemDetailActivity::class.java)
         intent.putExtra("item", rssItem)
         startActivity(intent)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.main_activity_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.json_menu_item -> {
+                presenter.switchSource()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
 }
