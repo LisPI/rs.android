@@ -22,12 +22,14 @@ class RssItemDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRssItemDetailBinding
     private lateinit var player : SimpleExoPlayer
     private lateinit var rssItem: RssItem
-
+//TODO add backButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRssItemDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         title = "Detail"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         rssItem = intent.getParcelableExtra<RssItem>("item")!!
 
         val thumbnail = ThumbnailUtils.createVideoThumbnail(
@@ -43,6 +45,11 @@ class RssItemDetailActivity : AppCompatActivity() {
         }
 
         //initializePlayer()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 /*
     private fun initializePlayer() {

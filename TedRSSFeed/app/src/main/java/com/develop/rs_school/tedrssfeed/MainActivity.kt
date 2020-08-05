@@ -15,9 +15,6 @@ class MainActivity : MvpAppCompatActivity(), RssOverviewView {
     @InjectPresenter
     lateinit var presenter: RssOverviewPresenter
 
-    @ProvidePresenter
-    fun providePresenter() = RssOverviewPresenter()
-
     private lateinit var binding: ActivityMainBinding
 
     //TODO MVP ?  in Presenter

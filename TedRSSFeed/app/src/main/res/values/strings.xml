@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TedRSSFeed</string>
+    <string name="switch_source_menu">Switch source</string>
 </resources>
