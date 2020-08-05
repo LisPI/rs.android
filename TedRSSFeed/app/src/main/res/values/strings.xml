@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">TedRSSFeed</string>
     <string name="switch_source_menu">Switch source</string>
+    <string name="player_pause">player pause</string>
+    <string name="player_play">player play</string>
+    <string name="save_video_button">save video</string>
+    <string name="like_video_button">like video</string>
+    <string name="info_title">Информация</string>
+    <string name="rss_item_image">rss item image</string>
 </resources>

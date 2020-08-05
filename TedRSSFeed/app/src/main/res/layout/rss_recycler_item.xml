@@ -22,7 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="center"
-            tools:src="@tools:sample/backgrounds/scenic" />
+            tools:src="@tools:sample/backgrounds/scenic"
+            android:contentDescription="@string/rss_item_image" />
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -30,7 +31,7 @@
         android:id="@+id/duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/cardview_dark_background"
+        android:background="?attr/colorOnPrimarySurface"
         android:ellipsize="none"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"

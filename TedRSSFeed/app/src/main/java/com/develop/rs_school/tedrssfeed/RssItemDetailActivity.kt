@@ -1,12 +1,7 @@
 package com.develop.rs_school.tedrssfeed
 
-import android.annotation.SuppressLint
-import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import android.view.View
-import android.widget.MediaController
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import com.develop.rs_school.tedrssfeed.databinding.ActivityRssItemDetailBinding
@@ -16,13 +11,12 @@ import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 
-
 class RssItemDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRssItemDetailBinding
-    private lateinit var player : SimpleExoPlayer
+    private lateinit var player: SimpleExoPlayer
     private lateinit var rssItem: RssItem
-//TODO add backButton
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRssItemDetailBinding.inflate(layoutInflater)
@@ -32,6 +26,11 @@ class RssItemDetailActivity : AppCompatActivity() {
 
         rssItem = intent.getParcelableExtra<RssItem>("item")!!
 
+        binding.fullDescription.text = rssItem.description
+        binding.title.text = rssItem.title.substringBeforeLast("|")
+        binding.speaker.text = rssItem.speakers.joinToString(separator = " and ")
+
+/*
         val thumbnail = ThumbnailUtils.createVideoThumbnail(
             rssItem.videoUrl,
             MediaStore.Images.Thumbnails.MINI_KIND
@@ -40,29 +39,31 @@ class RssItemDetailActivity : AppCompatActivity() {
         mediaController.setAnchorView(binding.videoView)
         binding.videoView.apply {
             //background =
-            setVideoURI(rssItem.videoUrl.toUri())
+            setVideoURI(Uri.parse(rssItem.videoUrl))
             setMediaController(mediaController)
         }
-
-        //initializePlayer()
+*/
+        // initializePlayer()
     }
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
     }
-/*
+
     private fun initializePlayer() {
+
         player = SimpleExoPlayer.Builder(this).build()
-        binding.playerView.setPlayer(player)
+
+        binding.playerView.player = player
+
         val media = getMediaSource(rssItem.videoUrl.toUri())
 
-        player.playWhenReady = playWhenReady;
-        player.seekTo(currentWindow, playbackPosition);
-        player.prepare(media, false, false);
+        player.seekTo(currentWindow, playbackPosition)
+        player.prepare(media, false, false)
     }
 
-    private  fun getMediaSource(uri: Uri): ProgressiveMediaSource {
+    private fun getMediaSource(uri: Uri): ProgressiveMediaSource {
         val dataSourceFactory: DataSource.Factory =
             DefaultDataSourceFactory(this, "tedrssfeed")
         return ProgressiveMediaSource.Factory(dataSourceFactory)
@@ -78,6 +79,7 @@ class RssItemDetailActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        // hideSystemUi()
         if (Util.SDK_INT < 24) {
             initializePlayer()
         }
@@ -107,5 +109,24 @@ class RssItemDetailActivity : AppCompatActivity() {
         currentWindow = player.currentWindowIndex
         player.release()
     }
-*/
+
+//    @SuppressLint("InlinedApi")
+//    private fun hideSystemUi() {
+//        binding.playerView.systemUiVisibility = (
+//                //View.SYSTEM_UI_FLAG_LOW_PROFILE or
+//                View.SYSTEM_UI_FLAG_FULLSCREEN
+//                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+//
+//
+//                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                )
+//    }
+//
+//    override fun onWindowFocusChanged(hasFocus: Boolean) {
+//        super.onWindowFocusChanged(hasFocus)
+//        if (hasFocus) hideSystemUi()
+//    }
 }

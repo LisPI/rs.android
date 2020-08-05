@@ -8,7 +8,6 @@ import android.view.MenuItem
 import com.develop.rs_school.tedrssfeed.databinding.ActivityMainBinding
 import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
 
 class MainActivity : MvpAppCompatActivity(), RssOverviewView {
 
@@ -17,7 +16,7 @@ class MainActivity : MvpAppCompatActivity(), RssOverviewView {
 
     private lateinit var binding: ActivityMainBinding
 
-    //TODO MVP ?  in Presenter
+    // TODO MVP ?  in Presenter
     private val adapter = RssFeedRecyclerAdapter(RssRecyclerItemListener { rssItem ->
         presenter.rssItemClicked(rssItem)
     })
@@ -55,5 +54,4 @@ class MainActivity : MvpAppCompatActivity(), RssOverviewView {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 }

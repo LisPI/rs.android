@@ -20,9 +20,9 @@ interface RssOverviewView : MvpView {
     fun goToDetailView(rssItem: RssItem)
 }
 
-//TODO
+// TODO
 class RssOverviewPresenter : MvpPresenter<RssOverviewView>() {
-    //FIXME for switch between source
+    // FIXME for switch between source
     var model: ModelMVP = ModelJson()
     fun switchSource() {
         model = if (model is ModelXML) ModelJson() else ModelXML()
@@ -36,7 +36,6 @@ class RssOverviewPresenter : MvpPresenter<RssOverviewView>() {
             viewState.showRssFeed(model.getRssItems())
         }
     }
-
 
     fun rssItemClicked(rssItem: RssItem) {
         viewState.goToDetailView(rssItem)
@@ -57,7 +56,7 @@ class ModelXML : ModelMVP {
                     description = result.description,
                     imageUrl = result.image.url.replace("amp;", ""),
                     videoUrl = result.video.url,
-                    duration = "00",//result.duration,
+                    duration = "00", // result.duration,
                     speakers = result.credit.map { it.speaker }
                 )
             }
