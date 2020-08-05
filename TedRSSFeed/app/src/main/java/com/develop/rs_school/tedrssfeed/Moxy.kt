@@ -1,11 +1,8 @@
 package com.develop.rs_school.tedrssfeed
 
-import moxy.InjectViewState
 import moxy.MvpPresenter
 import moxy.MvpView
 import moxy.viewstate.strategy.*
-import moxy.viewstate.strategy.alias.AddToEnd
-import org.json.JSONArray
 import org.json.JSONObject
 
 @StateStrategyType(AddToEndSingleStrategy::class)
@@ -27,7 +24,6 @@ class RssOverviewPresenter : MvpPresenter<RssOverviewView>() {
 }
 
 //TODO format - 00:01:43 to 01:43
-//TODO textView shapeLayout for round corner
 //TODO refactor this
 //GSON
 fun getRssItems(): List<RssItem> {
@@ -37,16 +33,14 @@ fun getRssItems(): List<RssItem> {
     val itemsArray = JSONObject(jsonString).getJSONObject("channel").getJSONArray("item")
 
     for (i in 0 until itemsArray.length()) {
-        //TODO refactor this - "and" between speakers, cat speaker from title
         val credits = itemsArray.getJSONObject(i).getJSONObject("group")
-        val speaker: String =
-            if (credits.optJSONArray("credit") != null) {
-                var buffer = ""
-                for (j in 0 until credits.getJSONArray("credit").length())
-                    buffer = buffer.plus(credits.getJSONArray("credit").getJSONObject(j).getString("text") + " and ")
-                buffer.substringBeforeLast(" and ")
-            } else
-                credits.getJSONObject("credit").getString("text")
+        val speakers: MutableList<String> = mutableListOf()
+
+        if (credits.optJSONArray("credit") != null) {
+            for (j in 0 until credits.getJSONArray("credit").length())
+                speakers.add(credits.getJSONArray("credit").getJSONObject(j).getString("text"))
+        } else
+            speakers.add(credits.getJSONObject("credit").getString("text"))
 
         rssItems.add(
             RssItem(
@@ -58,7 +52,7 @@ fun getRssItems(): List<RssItem> {
                     .getString("url"),
                 duration = itemsArray.getJSONObject(i).getJSONObject("duration")
                     .getString("text"),
-                speaker = speaker
+                speaker = speakers
             )
         )
     }

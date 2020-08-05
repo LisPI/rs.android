@@ -29,7 +29,7 @@ class RssFeedRecyclerAdapter(private val itemClickListener: RssRecyclerItemListe
                 .into(itemBinding.rssImage)
             itemBinding.duration.text = rssItem.duration
             itemBinding.title.text = rssItem.title
-            itemBinding.speaker.text = rssItem.speaker
+            itemBinding.speaker.text = rssItem.speaker.first()
         }
     }
 

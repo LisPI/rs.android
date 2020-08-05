@@ -37,9 +37,19 @@ class MainActivity : MvpAppCompatActivity(), RssOverviewView {
 
 
         CoroutineScope(Dispatchers.Main).launch {
-            with(Dispatchers.IO){
-                val t = RssApi.retrofitService.getXML()
-                val g = 3
+            with(Dispatchers.IO) {
+                val feed = RssApi.retrofitService.getXML()
+                val t = feed.itemList.map { result ->
+                    RssItem(
+                        title = result.title,
+                        description = result.description.substringBeforeLast("|"),
+                        imageUrl = result.image.url,
+                        videoUrl = result.video.url,
+                        duration = result.duration,
+                        speaker = result.credit.map { it.speaker }
+                    )
+                }
+                t[2]
 
             }
         }
