@@ -20,16 +20,10 @@ interface RssOverviewView : MvpView {
     fun goToDetailView(rssItem: RssItem)
 }
 
-// TODO
-class RssOverviewPresenter : MvpPresenter<RssOverviewView>() {
-    // FIXME for switch between source
-    var model: ModelMVP = ModelJson()
-    fun switchSource() {
-        model = if (model is ModelXML) ModelJson() else ModelXML()
-        presenterScope.launch {
-            viewState.showRssFeed(model.getRssItems())
-        }
-    }
+// TODO DI
+class RssOverviewPresenter constructor(
+    private var model: ModelMVP
+) : MvpPresenter<RssOverviewView>() {
 
     override fun onFirstViewAttach() {
         presenterScope.launch {
@@ -39,6 +33,14 @@ class RssOverviewPresenter : MvpPresenter<RssOverviewView>() {
 
     fun rssItemClicked(rssItem: RssItem) {
         viewState.goToDetailView(rssItem)
+    }
+
+    // FIXME for switch between source
+    fun switchSource() {
+        model = if (model is ModelXML) ModelJson() else ModelXML()
+        presenterScope.launch {
+            viewState.showRssFeed(model.getRssItems())
+        }
     }
 }
 

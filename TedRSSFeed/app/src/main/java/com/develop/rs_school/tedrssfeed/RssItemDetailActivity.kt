@@ -27,23 +27,9 @@ class RssItemDetailActivity : AppCompatActivity() {
         rssItem = intent.getParcelableExtra<RssItem>("item")!!
 
         binding.fullDescription.text = rssItem.description
-        binding.title.text = rssItem.title.substringBeforeLast("|")
-        binding.speaker.text = rssItem.speakers.joinToString(separator = " and ")
+        binding.title.text = getTitle(rssItem.title)
+        binding.speaker.text = getSpeakers(rssItem.speakers)
 
-/*
-        val thumbnail = ThumbnailUtils.createVideoThumbnail(
-            rssItem.videoUrl,
-            MediaStore.Images.Thumbnails.MINI_KIND
-        )
-        val mediaController = MediaController(binding.videoView.context)
-        mediaController.setAnchorView(binding.videoView)
-        binding.videoView.apply {
-            //background =
-            setVideoURI(Uri.parse(rssItem.videoUrl))
-            setMediaController(mediaController)
-        }
-*/
-        // initializePlayer()
     }
 
     override fun onSupportNavigateUp(): Boolean {

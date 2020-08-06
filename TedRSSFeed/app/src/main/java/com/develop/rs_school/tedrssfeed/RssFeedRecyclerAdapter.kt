@@ -27,9 +27,9 @@ class RssFeedRecyclerAdapter(private val itemClickListener: RssRecyclerItemListe
             Glide.with(itemView.context).load(rssItem.imageUrl)
                 .thumbnail(GLIDE_THUMBNAIL_SIZE)
                 .into(itemBinding.rssImage)
-            itemBinding.duration.text = rssItem.duration
-            itemBinding.title.text = rssItem.title.substringBeforeLast("|")
-            itemBinding.speaker.text = rssItem.speakers.joinToString(separator = " and ")
+            itemBinding.duration.text = formatDuration(rssItem.duration)
+            itemBinding.title.text = getTitle(rssItem.title)
+            itemBinding.speaker.text = getSpeakers(rssItem.speakers)
         }
     }
 
