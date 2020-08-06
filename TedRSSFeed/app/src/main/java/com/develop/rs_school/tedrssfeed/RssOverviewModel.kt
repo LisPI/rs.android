@@ -2,7 +2,6 @@ package com.develop.rs_school.tedrssfeed
 
 import com.develop.rs_school.tedrssfeed.network.RssApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
 interface RssOverviewModel {
@@ -29,10 +28,9 @@ class ModelXML : RssOverviewModel {
 class ModelJson : RssOverviewModel {
     override suspend fun getRssItems(): List<RssItem> {
         val rssItems = mutableListOf<RssItem>()
-        val jsonString = withContext(Dispatchers.IO) {
-            App.instance.applicationContext.assets.open("data.json").bufferedReader()
+        val jsonString = App.instance.applicationContext.assets.open("data.json").bufferedReader()
                 .use { it.readText() }
-        }
+
         val itemsArray = JSONObject(jsonString).getJSONObject("channel").getJSONArray("item")
 
         for (i in 0 until itemsArray.length()) {
