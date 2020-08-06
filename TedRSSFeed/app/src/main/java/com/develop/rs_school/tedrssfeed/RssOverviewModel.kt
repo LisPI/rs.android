@@ -2,53 +2,16 @@ package com.develop.rs_school.tedrssfeed
 
 import com.develop.rs_school.tedrssfeed.network.RssApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import moxy.MvpPresenter
-import moxy.MvpView
-import moxy.presenterScope
-import moxy.viewstate.strategy.AddToEndSingleStrategy
-import moxy.viewstate.strategy.SkipStrategy
-import moxy.viewstate.strategy.StateStrategyType
 import org.json.JSONObject
+import java.util.*
 
-@StateStrategyType(AddToEndSingleStrategy::class)
-interface RssOverviewView : MvpView {
-    fun showRssFeed(rssFeed: List<RssItem>)
-
-    @StateStrategyType(SkipStrategy::class)
-    fun goToDetailView(rssItem: RssItem)
-}
-
-// TODO DI
-class RssOverviewPresenter constructor(
-    private var model: ModelMVP
-) : MvpPresenter<RssOverviewView>() {
-
-    override fun onFirstViewAttach() {
-        presenterScope.launch {
-            viewState.showRssFeed(model.getRssItems())
-        }
-    }
-
-    fun rssItemClicked(rssItem: RssItem) {
-        viewState.goToDetailView(rssItem)
-    }
-
-    // FIXME for switch between source
-    fun switchSource() {
-        model = if (model is ModelXML) ModelJson() else ModelXML()
-        presenterScope.launch {
-            viewState.showRssFeed(model.getRssItems())
-        }
-    }
-}
-
-interface ModelMVP {
+interface RssOverviewModel {
+    //val data : Observable
     suspend fun getRssItems(): List<RssItem>
 }
 
-class ModelXML : ModelMVP {
+class ModelXML : RssOverviewModel {
     override suspend fun getRssItems() =
         with(Dispatchers.IO) {
             val rssFeed = RssApi.retrofitService.getXML()
@@ -58,14 +21,14 @@ class ModelXML : ModelMVP {
                     description = result.description,
                     imageUrl = result.image.url.replace("amp;", ""),
                     videoUrl = result.video.url,
-                    duration = "00", // result.duration,
+                    duration = result.duration,
                     speakers = result.credit.map { it.speaker }
                 )
             }
         }
 }
 
-class ModelJson : ModelMVP {
+class ModelJson : RssOverviewModel {
     override suspend fun getRssItems(): List<RssItem> {
         val rssItems = mutableListOf<RssItem>()
         val jsonString = withContext(Dispatchers.IO) {

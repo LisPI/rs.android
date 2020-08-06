@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".RssItemDetailActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"/>
-        <activity android:name=".MainActivity">
+        <activity android:name=".RssOverviewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -5,16 +5,21 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import com.develop.rs_school.tedrssfeed.databinding.ActivityMainBinding
+import android.widget.Toast
+import com.develop.rs_school.tedrssfeed.databinding.ActivityRssOverviewBinding
 import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 
-class MainActivity : MvpAppCompatActivity(), RssOverviewView {
+class RssOverviewActivity : MvpAppCompatActivity(), RssOverviewView {
 
     @InjectPresenter
     lateinit var presenter: RssOverviewPresenter
 
-    private lateinit var binding: ActivityMainBinding
+    @ProvidePresenter
+    fun providePresenter() = RssOverviewPresenter(ModelJson())
+
+    private lateinit var binding: ActivityRssOverviewBinding
 
     // TODO MVP ?  in Presenter
     private val adapter = RssFeedRecyclerAdapter(RssRecyclerItemListener { rssItem ->
@@ -23,7 +28,7 @@ class MainActivity : MvpAppCompatActivity(), RssOverviewView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityRssOverviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.rssRecycler.adapter = adapter
@@ -31,6 +36,10 @@ class MainActivity : MvpAppCompatActivity(), RssOverviewView {
 
     override fun showRssFeed(rssFeed: List<RssItem>) {
         adapter.submitList(rssFeed)
+    }
+
+    override fun showError() {
+        Toast.makeText(this,"Error load data", Toast.LENGTH_SHORT).show()
     }
 
     override fun goToDetailView(rssItem: RssItem) {

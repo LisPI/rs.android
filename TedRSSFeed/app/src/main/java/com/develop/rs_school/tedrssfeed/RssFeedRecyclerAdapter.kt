@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.develop.rs_school.tedrssfeed.databinding.RssRecyclerItemBinding
 
 class RssFeedRecyclerAdapter(private val itemClickListener: RssRecyclerItemListener) :
@@ -25,6 +26,11 @@ class RssFeedRecyclerAdapter(private val itemClickListener: RssRecyclerItemListe
 
         fun bind(rssItem: RssItem) {
             Glide.with(itemView.context).load(rssItem.imageUrl)
+                .apply(
+                    RequestOptions()
+                        .placeholder(R.drawable.loading_animation)
+                        .error(R.drawable.connection_error)
+                )
                 .thumbnail(GLIDE_THUMBNAIL_SIZE)
                 .into(itemBinding.rssImage)
             itemBinding.duration.text = formatDuration(rssItem.duration)
