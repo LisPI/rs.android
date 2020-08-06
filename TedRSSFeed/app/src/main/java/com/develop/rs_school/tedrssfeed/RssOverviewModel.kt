@@ -4,7 +4,6 @@ import com.develop.rs_school.tedrssfeed.network.RssApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
-import java.util.*
 
 interface RssOverviewModel {
     suspend fun getRssItems(): List<RssItem>
@@ -16,7 +15,7 @@ class ModelXML : RssOverviewModel {
             val rssFeed = RssApi.retrofitService.getXML()
             rssFeed.itemList.map { result ->
                 RssItem(
-                    title = result.title.replace("&quot;", ""),
+                    title = result.title.replace("&quot;", "\""),
                     description = result.description,
                     imageUrl = result.image.url.replace("amp;", ""),
                     videoUrl = result.video.url,

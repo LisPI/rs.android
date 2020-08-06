@@ -6,7 +6,7 @@ import moxy.presenterScope
 
 // TODO DI Model
 class RssOverviewPresenter constructor(
-    private var model: RssOverviewModel
+    private var model: RssOverviewModel = ModelJson()
 ) : MvpPresenter<RssOverviewView>() {
 
     override fun onFirstViewAttach() {
@@ -22,9 +22,11 @@ class RssOverviewPresenter constructor(
         when (model) {
             is ModelXML -> {
                 model = ModelJson()
+                viewState.showActualSource("Json")
             }
             is ModelJson -> {
                 model = ModelXML()
+                viewState.showActualSource("XML")
             }
         }
         loadData()

@@ -6,50 +6,72 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     tools:context=".RssItemDetailActivity">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.exoplayer2.ui.AspectRatioFrameLayout
-            android:id="@+id/fr"
+            android:id="@+id/player_frame"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@android:color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:resize_mode="fixed_width">
-        <com.google.android.exoplayer2.ui.PlayerView
-            android:id="@+id/player_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:use_artwork="true" />
+
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/player_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                app:use_artwork="true" />
+
+            <ImageView
+                android:id="@+id/preview_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/connection_error"
+                android:contentDescription="@string/preview_rss_image" />
+
+            <ImageButton
+                android:id="@+id/play_button"
+                style="@style/ExoMediaButton.Play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:alpha="0.5"
+                android:background="#CC000000"
+                android:contentDescription="@string/player_play" />
+
         </com.google.android.exoplayer2.ui.AspectRatioFrameLayout>
 
         <TextView
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            tools:text="TextView TextView TextView TextView TextView TextView TextView TextView"
             android:textAppearance="?attr/textAppearanceHeadline5"
             android:textColor="?android:attr/textColorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fr" />
+            app:layout_constraintTop_toBottomOf="@+id/player_frame"
+            tools:text="TextView TextView TextView TextView TextView" />
 
         <TextView
             android:id="@+id/speaker"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            tools:text="TextView TextView TextView TextView TextView TextView TextView TextView"
             android:textAppearance="?attr/textAppearanceBody2"
             android:textColor="?android:attr/textColorSecondary"
             app:layout_constraintEnd_toEndOf="@id/title"
             app:layout_constraintStart_toStartOf="@id/title"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            tools:text="TextView TextView TextView TextView" />
 
         <ImageView
             android:id="@+id/favorite_icon"
@@ -57,10 +79,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
+            android:contentDescription="@string/like_video_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/speaker"
-            app:srcCompat="@drawable/ic_baseline_favorite_border_24"
-            android:contentDescription="@string/like_video_button" />
+            app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
 
         <ImageView
             android:id="@+id/download_icon"
@@ -68,10 +90,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:contentDescription="@string/save_video_button"
             app:layout_constraintStart_toEndOf="@+id/favorite_icon"
             app:layout_constraintTop_toBottomOf="@+id/speaker"
-            app:srcCompat="@drawable/ic_baseline_save_alt_24"
-            android:contentDescription="@string/save_video_button" />
+            app:srcCompat="@drawable/ic_baseline_save_alt_24" />
 
         <TextView
             android:id="@+id/info_title"
@@ -89,12 +111,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            tools:text="TextView TextView TextView TextView TextView TextView TextView TextView"
             android:textAppearance="?attr/textAppearanceSubtitle2"
             android:textColor="?android:attr/textColorPrimary"
             app:layout_constraintEnd_toEndOf="@+id/speaker"
             app:layout_constraintStart_toStartOf="@+id/info_title"
-            app:layout_constraintTop_toBottomOf="@+id/info_title" />
+            app:layout_constraintTop_toBottomOf="@+id/info_title"
+            tools:text="TextView TextView TextView TextView TextView TextView TextView TextView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

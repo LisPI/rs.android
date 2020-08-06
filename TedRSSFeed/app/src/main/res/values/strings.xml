@@ -5,7 +5,9 @@
     <string name="player_play">player play</string>
     <string name="save_video_button">save video</string>
     <string name="like_video_button">like video</string>
-    <string name="info_title">Информация</string>
+    <string name="info_title">Information</string>
     <string name="rss_item_image">rss item image</string>
-    <string name="RssItemIntentKey">RssItem</string>
+    <string name="rss_item_intent_key">RssItem</string>
+    <string name="error_message">Error load data</string>
+    <string name="preview_rss_image">preview rss image</string>
 </resources>

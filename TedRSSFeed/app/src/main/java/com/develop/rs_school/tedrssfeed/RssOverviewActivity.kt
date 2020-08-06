@@ -17,11 +17,10 @@ class RssOverviewActivity : MvpAppCompatActivity(), RssOverviewView {
     lateinit var presenter: RssOverviewPresenter
 
     @ProvidePresenter
-    fun providePresenter() = RssOverviewPresenter(ModelJson())
+    fun providePresenter() = RssOverviewPresenter()
 
     private lateinit var binding: ActivityRssOverviewBinding
 
-    // TODO MVP ?  in Presenter
     private val adapter = RssFeedRecyclerAdapter(RssRecyclerItemListener { rssItem ->
         presenter.rssItemClicked(rssItem)
     })
@@ -39,12 +38,16 @@ class RssOverviewActivity : MvpAppCompatActivity(), RssOverviewView {
     }
 
     override fun showError() {
-        Toast.makeText(this,"Error load data", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.error_message), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showActualSource(sourceName: String) {
+        Toast.makeText(this, sourceName, Toast.LENGTH_SHORT).show()
     }
 
     override fun goToDetailView(rssItem: RssItem) {
         val intent = Intent(this, RssItemDetailActivity::class.java)
-        intent.putExtra(getString(R.string.RssItemIntentKey), rssItem)
+        intent.putExtra(getString(R.string.rss_item_intent_key), rssItem)
         startActivity(intent)
     }
 
