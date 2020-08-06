@@ -10,6 +10,7 @@ import moxy.viewstate.strategy.StateStrategyType
 interface RssOverviewView : MvpView {
     fun showRssFeed(rssFeed: List<RssItem>)
 
+    @StateStrategyType(SkipStrategy::class)
     fun showError()
 
     @StateStrategyType(SkipStrategy::class)

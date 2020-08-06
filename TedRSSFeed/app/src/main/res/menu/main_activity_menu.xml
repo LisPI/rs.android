@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/json_menu_item"
-        android:icon="@drawable/ic_baseline_find_replace_24"
         android:title="@string/switch_source_menu"
         app:showAsAction="always" />
 </menu>

@@ -44,7 +44,7 @@ class RssOverviewActivity : MvpAppCompatActivity(), RssOverviewView {
 
     override fun goToDetailView(rssItem: RssItem) {
         val intent = Intent(this, RssItemDetailActivity::class.java)
-        intent.putExtra("item", rssItem)
+        intent.putExtra(getString(R.string.RssItemIntentKey), rssItem)
         startActivity(intent)
     }
 

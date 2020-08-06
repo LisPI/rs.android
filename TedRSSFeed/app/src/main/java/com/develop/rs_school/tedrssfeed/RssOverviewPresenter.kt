@@ -4,7 +4,7 @@ import kotlinx.coroutines.launch
 import moxy.MvpPresenter
 import moxy.presenterScope
 
-// TODO DI
+// TODO DI Model
 class RssOverviewPresenter constructor(
     private var model: RssOverviewModel
 ) : MvpPresenter<RssOverviewView>() {
@@ -19,16 +19,24 @@ class RssOverviewPresenter constructor(
 
     // FIXME for switch between source
     fun switchSource() {
-        model = if (model is ModelXML) ModelJson() else ModelXML()
+        when (model) {
+            is ModelXML -> {
+                model = ModelJson()
+            }
+            is ModelJson -> {
+                model = ModelXML()
+            }
+        }
         loadData()
     }
 
-    private fun loadData(){
+    private fun loadData() {
         presenterScope.launch {
-            try{
+            try {
                 viewState.showRssFeed(model.getRssItems())
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 viewState.showError()
+                viewState.showRssFeed(listOf())
             }
         }
     }

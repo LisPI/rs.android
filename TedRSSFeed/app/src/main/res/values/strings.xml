@@ -7,4 +7,5 @@
     <string name="like_video_button">like video</string>
     <string name="info_title">Информация</string>
     <string name="rss_item_image">rss item image</string>
+    <string name="RssItemIntentKey">RssItem</string>
 </resources>

@@ -11,6 +11,7 @@ import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 
+
 class RssItemDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRssItemDetailBinding
@@ -21,15 +22,15 @@ class RssItemDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRssItemDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        title = "Detail"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        rssItem = intent.getParcelableExtra<RssItem>("item")!!
+        rssItem = intent.getParcelableExtra<RssItem>(getString(R.string.RssItemIntentKey))
 
         binding.fullDescription.text = rssItem.description
         binding.title.text = getTitle(rssItem.title)
         binding.speaker.text = getSpeakers(rssItem.speakers)
 
+        binding.fr.setAspectRatio(16f/9f)
     }
 
     override fun onSupportNavigateUp(): Boolean {

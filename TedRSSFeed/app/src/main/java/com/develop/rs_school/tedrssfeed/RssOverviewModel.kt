@@ -7,7 +7,6 @@ import org.json.JSONObject
 import java.util.*
 
 interface RssOverviewModel {
-    //val data : Observable
     suspend fun getRssItems(): List<RssItem>
 }
 
