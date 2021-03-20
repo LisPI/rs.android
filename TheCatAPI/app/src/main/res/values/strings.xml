@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">TheCatAPI</string>
+    <string name="image_of_cat_desc">Image of cat</string>
+    <string name="error_image_desc">Error_image</string>
+    <string name="retry">Retry!</string>
+    <string name="SaveImageMenuItemTitle">Save Image</string>
+    <string name="GrantPermissionMessage">Please grant permission</string>
+    <string name="ImageSaved">Image saved!</string>
+    <string name="ImageSaveError">Saved error</string>
+</resources>

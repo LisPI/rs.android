@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/overviewCatsFragment">
+
+    <fragment
+        android:id="@+id/detailCatFragment"
+        android:name="com.develop.rs_school.thecatapi.detail.DetailCatFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/detail_cat_fragment" >
+        <argument
+            android:name="cat"
+            app:argType="com.develop.rs_school.thecatapi.network.Cat" />
+    </fragment>
+    <fragment
+        android:id="@+id/overviewCatsFragment"
+        android:name="com.develop.rs_school.thecatapi.overview.OverviewCatsFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/overview_cats_fragment">
+        <action
+            android:id="@+id/action_overviewCatsFragment_to_detailCatFragment"
+            app:destination="@id/detailCatFragment"
+            app:enterAnim="@animator/card_flip_left_in"
+            app:exitAnim="@animator/card_flip_left_out"
+            app:popEnterAnim="@animator/card_flip_right_in"
+            app:popExitAnim="@animator/card_flip_right_out" />
+    </fragment>
+</navigation>
